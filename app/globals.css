@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand Palette (Reference) */
+  --brand-blue-900: #0B3C8A;
+  --brand-blue-800: #1E5FD6;
+  --brand-blue-700: #3A7BEF;
+  --brand-blue-600: #6FAEFF;
+  --brand-blue-500: #9CC9FF;
+
+  /* Light Theme Tokens */
+  --bg-main: #FAFAF8;
+  --bg-surface: #FFFFFF;
+  --text-primary: #0122a8;
+  /* Deep Blue for Headings */
+  --text-secondary: #52668D;
+  /* Muted Grey-Blue for Matter */
+  --border-soft: #60a1fe44;
+  --accent-main: #6FAEFF;
+  --accent-muted: #60a1fe22;
+  --focus-ring: #0122a8;
+
+  /* Spacing Scale (Reference) */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-96: 96px;
+}
+
+/* Dark theme tokens are handled via the .dark class managed by next-themes */
+
+/* Manual Theme Toggle Support */
+.dark {
+  --bg-main: #1A2640;
+  --bg-surface: #1E2B4A;
+  --text-primary: #FFFFFF;
+  /* Pure White for Headings */
+  --text-secondary: #A0B3D9;
+  /* Soft Blue-Grey for Matter */
+  --border-soft: #60a1fe44;
+  --accent-main: #6FAEFF;
+  --accent-muted: #60a1fe22;
+  --focus-ring: #60a1fe;
+}
+
+@layer base {
+  :root {
+    --color-background: var(--bg-main);
+    --color-surface: var(--bg-surface);
+    --color-foreground: var(--text-primary);
+    --color-muted-foreground: var(--text-secondary);
+    --color-border: var(--border-soft);
+    --color-primary: var(--accent-main);
+    --color-primary-muted: var(--accent-muted);
+    --color-ring: var(--focus-ring);
+
+    /* Mapping standard Tailwind names to our specific tokens where appropriate */
+    --color-muted: var(--bg-surface);
+    /* Using surface as muted bg often */
+
+    --font-lucida: "Lucida Sans", "Lucida Grande", system-ui, sans-serif;
+
+    --radius-button: 10px;
+    --radius-card: 16px;
+    --radius-input: 8px;
+  }
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: "Lucida Sans", "Lucida Grande", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary);
+  font-weight: 500;
+  /* Medium */
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.625;
+  /* ~26px line height for 16px font */
+}
+
+/* Focus Styles - Strict adherence */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Base Transition for Theme Switching */
+body,
+div,
+section,
+header,
+footer,
+a,
+button,
+input {
+  transition-property: color, background-color, border-color, opacity, transform;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hide Scrollbar Utilities */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari and Opera */
+}
