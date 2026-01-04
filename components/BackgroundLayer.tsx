@@ -339,7 +339,7 @@ export default function BackgroundLayer() {
         return () => cancelAnimationFrame(animationFrameId);
     }, [mounted, isHome]); // Re-run if page changes (isHome changes icon count)
 
-    if (!mounted) return null;
+    if (!mounted) return <div className="fixed inset-0 z-[-1] bg-background" />;
 
     // Use current ref data for rendering
     const activeIconData = iconData.current;
