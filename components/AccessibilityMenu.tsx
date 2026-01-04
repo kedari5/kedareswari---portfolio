@@ -23,8 +23,8 @@ export default function AccessibilityMenu({ onClose }: { onClose: () => void }) 
     }
 
     return (
-        <div className="absolute top-[80px] right-8 w-80 bg-surface border border-border rounded-[16px] shadow-xl p-6 z-50 animate-in fade-in slide-in-from-top-2">
-            <div className="flex justify-between items-center mb-6 pb-4 border-b border-border">
+        <div className="absolute top-[80px] right-8 w-80 bg-surface border border-white/5 rounded-[16px] shadow-xl p-6 z-50 animate-in fade-in slide-in-from-top-2">
+            <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/5">
                 <h3 className="font-medium text-lg text-foreground">Accessibility</h3>
                 <button onClick={onClose} className="text-muted-foreground hover:text-foreground">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -109,7 +109,7 @@ export default function AccessibilityMenu({ onClose }: { onClose: () => void }) 
                 </div>
 
                 {/* Theme */}
-                <div className="flex justify-between items-center pt-4 border-t border-border">
+                <div className="flex justify-between items-center pt-4 border-t border-white/5">
                     <span className="text-sm text-foreground">Theme</span>
                     <div className="flex gap-2">
                         <button

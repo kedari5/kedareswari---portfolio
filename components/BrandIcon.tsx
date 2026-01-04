@@ -1,42 +1,56 @@
 import Image from "next/image";
-import { ClipboardCheck } from "lucide-react";
+import { ClipboardCheck, FlaskConical, Database, Zap, PenTool, Image as ImageIcon, Blocks, Table2, Code2 } from "lucide-react";
 
 interface BrandIconProps {
     name: string;
     className?: string;
 }
 
-const BRAND_ICONS: Record<string, { url: string; invertDark?: boolean; isLucide?: boolean }> = {
+const BRAND_ICONS: Record<string, { url: string; invertDark?: boolean; isLucide?: boolean; iconName?: string }> = {
     // Research
-    "Miro": { url: "https://upload.wikimedia.org/wikipedia/commons/5/53/Miro_logo.svg" },
-    "Maze": { url: "https://www.vectorlogo.zone/logos/maze/maze-icon.svg" },
-    "FigJam": { url: "https://upload.wikimedia.org/wikipedia/commons/e/e4/FigJam_logo_icon.svg" },
-    "Google Forms": { url: "https://upload.wikimedia.org/wikipedia/commons/5/5b/Google_Forms_2020_Logo.svg" },
-    "Excel Sheets": { url: "https://upload.wikimedia.org/wikipedia/commons/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg" },
-    "Hotjar": { url: "https://www.vectorlogo.zone/logos/hotjar/hotjar-icon.svg" },
+    "Miro": { url: "/brand-icons/miro.svg" },
+    "Maze": { url: "/brand-icons/maze.svg" },
+    "FigJam": { url: "/brand-icons/figma-custom.png?v=3" },
+    "Figma": { url: "/brand-icons/figma-custom.png?v=3" },
+    "Google Forms": { url: "/brand-icons/google-forms-custom.png?v=1" },
+    "Hotjar": { url: "/brand-icons/hotjar.svg" },
 
     // Design
-    "Figma": { url: "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" },
-    "Canva": { url: "https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" },
-    "Adobe XD": { url: "https://upload.wikimedia.org/wikipedia/commons/c/c2/Adobe_XD_CC_icon.svg" },
-    "Sketch": { url: "https://upload.wikimedia.org/wikipedia/commons/5/59/Sketch_Logo.svg" },
+    "Canva": { url: "/brand-icons/canva-custom.png?v=3" },
+    "Adobe XD": { url: "/brand-icons/adobexd-custom.png?v=3" },
+    "Sketch": { url: "/brand-icons/sketch-custom.svg?v=1" },
+    "Framer": { url: "/brand-icons/framer-custom.png?v=1" },
+    "Photo": { url: "/brand-icons/photoshop-custom.svg?v=1" },
+    "Adobe Illustrator": { url: "/brand-icons/illustrator-custom.svg" },
+    "Adobe Photoshop": { url: "/brand-icons/photoshop-custom.svg" },
 
     // Development
-    "HTML": { url: "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" },
-    "CSS": { url: "https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo.svg" },
-    "JavaScript": { url: "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" },
-    "React": { url: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" },
-    "Node.js": { url: "https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" },
-    "Python": { url: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" },
-    "Java": { url: "https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo.svg" },
-    "C": { url: "https://upload.wikimedia.org/wikipedia/commons/1/18/C_Programming_Language.svg" },
+    "HTML": { url: "/brand-icons/html-custom.svg?v=1" },
+    "CSS": { url: "/brand-icons/css-custom.png?v=1" },
+    "JavaScript": { url: "/brand-icons/javascript-custom.svg?v=1" },
+    "React": { url: "/brand-icons/react-custom.svg?v=1" },
+    "Node.js": { url: "/brand-icons/nodejs-custom.svg?v=1" },
+    "Python": { url: "/brand-icons/python-custom.svg?v=1" },
+    "Java": { url: "/brand-icons/java-custom.svg?v=1" },
+    "C": { url: "/brand-icons/c.svg" },
+    "MongoDB": { url: "/brand-icons/mongodb-custom.svg?v=1" },
+    "Express": { url: "/brand-icons/express-custom.png?v=1" },
+    "Postman": { url: "/brand-icons/postman.svg" },
 
     // Testing
-    "Manual Testing": { url: "", isLucide: true },
+    "Manual Testing": { url: "/brand-icons/manual-testing.svg" },
 
     // Versioning
-    "GitHub": { url: "https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg", invertDark: true },
-    "Vercel": { url: "https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png", invertDark: true },
+    "GitHub": { url: "/brand-icons/github-custom.png?v=1", invertDark: false },
+    "Vercel": { url: "/brand-icons/vercel-custom.svg?v=1", invertDark: true },
+
+    // Custom Assets (Converted from Lucide/Missing)
+    "Flask": { url: "/brand-icons/flask-custom.svg", invertDark: true },
+    "PostgreSQL": { url: "/brand-icons/postgresql-custom.svg" },
+    "Supabase": { url: "/brand-icons/supabase-custom.svg" },
+    "Next.js": { url: "/brand-icons/nextjs-custom.svg?v=2", invertDark: true },
+    "Spreadsheets": { url: "", isLucide: true, iconName: "Table2" },
+    "Google Apps Script": { url: "", isLucide: true, iconName: "Code2" },
 };
 
 export default function BrandIcon({ name, className = "" }: BrandIconProps) {
@@ -52,22 +66,27 @@ export default function BrandIcon({ name, className = "" }: BrandIconProps) {
         );
     }
 
-    // Virtual MERN inputs
-    const extraIcons: Record<string, { url: string; invertDark?: boolean }> = {
-        "MongoDB": { url: "https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" },
-        "Express": { url: "https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png", invertDark: true },
-    };
-
-    const iconData = BRAND_ICONS[name] || extraIcons[name];
+    // Virtual MERN inputs (now integrated above, but kept as fallback or for special logic)
+    const iconData = BRAND_ICONS[name];
 
     if (!iconData) { return null; }
 
     if (iconData.isLucide) {
-        return <ClipboardCheck className={`w-6 h-6 ${className} text-foreground`} />;
+        const IconComponent = iconData.iconName === "FlaskConical" ? FlaskConical :
+            iconData.iconName === "Database" ? Database :
+                iconData.iconName === "Zap" ? Zap :
+                    iconData.iconName === "PenTool" ? PenTool :
+                        iconData.iconName === "Image" ? ImageIcon :
+                            iconData.iconName === "Blocks" ? Blocks :
+                                iconData.iconName === "Table2" ? Table2 :
+                                    iconData.iconName === "Code2" ? Code2 :
+                                        ClipboardCheck;
+
+        return <IconComponent className={`w-5 h-5 ${className} text-foreground`} />;
     }
 
     return (
-        <div className={`relative w-6 h-6 flex-shrink-0 overflow-hidden ${className} ${iconData.invertDark ? 'dark:invert' : ''}`}>
+        <div className={`relative w-5 h-5 flex-shrink-0 overflow-hidden ${className} ${iconData.invertDark ? 'dark:invert' : ''}`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
                 src={iconData.url}

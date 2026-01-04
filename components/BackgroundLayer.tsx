@@ -1,14 +1,17 @@
 "use client";
 
-import React from "react";
+import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 interface IconProps {
     className?: string;
     size?: number;
     type: string;
+    style?: React.CSSProperties;
+    delay?: string;
 }
 
-const Icon = ({ className, size = 24, type }: IconProps) => {
+const Icon = ({ className, size = 16, type, style, delay = "0s" }: IconProps) => {
     const icons: Record<string, React.ReactNode> = {
         code: (
             <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -93,57 +96,275 @@ const Icon = ({ className, size = 24, type }: IconProps) => {
         ),
     };
 
-    return <div className={`absolute select-none pointer-events-none ${className}`}>{icons[type] || icons.circle}</div>;
+    return (
+        <div
+            className={`absolute select-none pointer-events-none bg-icon-transition ${className}`}
+            style={{ ...style }}
+        >
+            {icons[type] || icons.circle}
+        </div>
+    );
+};
+
+const ParticleBackground = () => {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const particles = useRef<any[]>([]);
+    const mouse = useRef({ x: -1000, y: -1000 });
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        let animationFrameId: number;
+
+        const init = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles.current = [];
+            const count = Math.min(window.innerWidth / 4, 300); // Dynamic count based on screen size
+
+            for (let i = 0; i < count; i++) {
+                particles.current.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.5 + 0.5,
+                    vx: (Math.random() - 0.5) * 0.2,
+                    vy: (Math.random() - 0.5) * 0.2,
+                    opacity: Math.random() * 0.5 + 0.2
+                });
+            }
+        };
+
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.current.forEach(p => {
+                // Background drift
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Wrap around
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+
+                // Mouse interaction (Antigravity style attraction)
+                const dx = mouse.current.x - p.x;
+                const dy = mouse.current.y - p.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const maxDist = 300;
+
+                let tx = 0;
+                let ty = 0;
+
+                if (distance < maxDist) {
+                    const force = (maxDist - distance) / maxDist;
+                    tx = dx * force * 0.05;
+                    ty = dy * force * 0.05;
+                }
+
+                ctx.beginPath();
+                ctx.arc(p.x + tx, p.y + ty, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(111, 174, 255, ${p.opacity})`;
+                ctx.fill();
+            });
+
+            animationFrameId = requestAnimationFrame(animate);
+        };
+
+        const handleMouseMove = (e: MouseEvent) => {
+            mouse.current = { x: e.clientX, y: e.clientY };
+        };
+
+        const handleResize = () => {
+            init();
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('resize', handleResize);
+        init();
+        animate();
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('resize', handleResize);
+            cancelAnimationFrame(animationFrameId);
+        };
+    }, []);
+
+    return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-20" />;
 };
 
 export default function BackgroundLayer() {
+    const pathname = usePathname();
+    const isHome = pathname === "/";
+    const [mounted, setMounted] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // Mouse position ref for animation loop (no state to avoid re-renders)
+    const mouseRef = useRef({ x: -1000, y: -1000 });
+
+    // Icon state refs
+    const iconsRef = useRef<any[]>([]);
+
+    useEffect(() => {
+        setMounted(true);
+        const handleMouseMove = (e: MouseEvent) => {
+            mouseRef.current = { x: e.clientX, y: e.clientY };
+        };
+        window.addEventListener("mousemove", handleMouseMove);
+        return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, []);
+
+    // Generate icons programmatically for better distribution and count
+    const generateIcons = (isHomePage: boolean) => {
+        const columns = isHomePage ? 4 : 3;
+        const rows = isHomePage ? 4 : 3;
+        const widthPerCell = 100 / columns;
+        const heightPerCell = 100 / rows;
+        const iconTypes = [
+            "code", "layers", "monitor", "accessibility", "type",
+            "cursor", "pencil", "mobile", "palette", "grid",
+            "lightning", "triangle", "component", "search", "circle", "square"
+        ];
+
+        const newIcons = [];
+        let typeIndex = 0;
+
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < columns; c++) {
+                // Base position center of cell
+                const baseX = c * widthPerCell + widthPerCell / 2;
+                const baseY = r * heightPerCell + heightPerCell / 2;
+
+                // Randomize within cell (jitter), keeping padding
+                const jitterX = (Math.random() - 0.5) * (widthPerCell * 0.6);
+                const jitterY = (Math.random() - 0.5) * (heightPerCell * 0.6);
+
+                newIcons.push({
+                    type: iconTypes[typeIndex % iconTypes.length],
+                    x: baseX + jitterX,
+                    y: baseY + jitterY,
+                    // Increased velocity range for faster movement
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: (Math.random() - 0.5) * 0.8,
+                });
+                typeIndex++;
+            }
+        }
+        return newIcons; // Simple shuffle could be added if needed, but sequential types is fine
+    };
+
+    // Initialize icon data with velocities
+    const iconData = useRef<any[]>([]);
+
+    // Update refs if path changes
+    useEffect(() => {
+        // Regenerate icons on path change to adapt density
+        iconData.current = generateIcons(isHome);
+        setMounted(true); // Trigger re-render to pick up new data
+    }, [pathname, isHome]);
+
+    // Animation Loop
+    useEffect(() => {
+        if (!mounted || !containerRef.current) return;
+
+        let animationFrameId: number;
+        // Initialize drift state for each icon
+        // We ensure we map over the CURRENT iconData to setup state
+        let iconState = iconData.current.map(icon => ({
+            ...icon,
+            driftX: 0,
+            driftY: 0,
+            currX: 0,
+            currY: 0
+        }));
+
+        const animate = () => {
+            if (!containerRef.current) return;
+
+            const children = containerRef.current.children;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            // If children count mismatch (re-render pending), skip frame or just cap
+            const count = Math.min(children.length, iconState.length);
+
+            for (let i = 0; i < count; i++) {
+                const icon = iconState[i];
+                const el = children[i] as HTMLElement;
+                if (!el) continue;
+
+                // 1. Update Drift - INCREASED SPEED HERE (was 0.5)
+                icon.driftX += icon.vx * 1.2;
+                icon.driftY += icon.vy * 1.2;
+
+                // Bounce drift off virtual walls (wider range allowed now)
+                if (Math.abs(icon.driftX) > 150) icon.vx *= -1;
+                if (Math.abs(icon.driftY) > 150) icon.vy *= -1;
+
+                // 2. Calculate Base Position pixels
+                const basePathX = (icon.x / 100) * width;
+                const basePathY = (icon.y / 100) * height;
+
+                // 3. Mouse Attraction calculation
+                const totalX = basePathX + icon.driftX;
+                const totalY = basePathY + icon.driftY;
+
+                const dx = mouseRef.current.x - totalX;
+                const dy = mouseRef.current.y - totalY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                const maxDist = 400; // More localized interaction
+                const pull = dist < maxDist ? (1 - dist / maxDist) : 0;
+
+                // Mouse Target Offset
+                const mouseOffsetX = dx * pull * 0.25;
+                const mouseOffsetY = dy * pull * 0.25;
+
+                // Transitioning the drift + attraction
+                const targetTransformX = icon.driftX + mouseOffsetX;
+                const targetTransformY = icon.driftY + mouseOffsetY;
+
+                el.style.transform = `translate3d(${targetTransformX}px, ${targetTransformY}px, 0)`;
+            }
+
+            animationFrameId = requestAnimationFrame(animate);
+        };
+
+        animate();
+        return () => cancelAnimationFrame(animationFrameId);
+    }, [mounted, isHome]); // Re-run if page changes (isHome changes icon count)
+
+    if (!mounted) return null;
+
+    // Use current ref data for rendering
+    const activeIconData = iconData.current;
+
     return (
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden h-full">
-            {/* Soft Blue Gradients */}
-            <div className="absolute inset-x-0 top-0 h-[50dvh] bg-gradient-to-b from-primary/5 to-transparent opacity-60 dark:opacity-40" />
-            <div className="absolute inset-x-0 bottom-0 h-[50dvh] bg-gradient-to-t from-primary/5 to-transparent opacity-60 dark:opacity-40" />
+        <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden h-screen w-screen bg-transparent">
+            {/* Base Background Gradient */}
+            <div className="absolute inset-0 bg-background transition-colors duration-700" />
 
-            {/* Icons Layer */}
-            <div className="absolute inset-0 z-0 opacity-[0.10] dark:opacity-[0.15] text-foreground">
-                <Icon className="top-[4%] left-[12%]" size={18} type="code" />
-                <Icon className="top-[6%] left-[34%]" size={20} type="circle" />
-                <Icon className="top-[3%] left-[56%]" size={20} type="palette" />
-                <Icon className="top-[8%] left-[78%]" size={18} type="cursor" />
-                <Icon className="top-[5%] left-[92%]" size={20} type="grid" />
+            {/* Antigravity Particle System */}
+            <ParticleBackground />
 
-                <Icon className="top-[15%] left-[7%]" size={22} type="layers" />
-                <Icon className="top-[18%] left-[22%]" size={18} type="mobile" />
-                <Icon className="top-[14%] left-[45%]" size={18} type="square" />
-                <Icon className="top-[16%] left-[65%]" size={20} type="component" />
-                <Icon className="top-[22%] left-[85%]" size={18} type="triangle" />
-
-                <Icon className="top-[28%] left-[15%]" size={20} type="monitor" />
-                <Icon className="top-[32%] left-[38%]" size={18} type="type" />
-                <Icon className="top-[25%] left-[60%]" size={20} type="search" />
-                <Icon className="top-[30%] left-[80%]" size={20} type="lightning" />
-                <Icon className="top-[35%] left-[95%]" size={18} type="pencil" />
-
-                <Icon className="top-[45%] left-[18%]" size={20} type="accessibility" />
-                <Icon className="top-[42%] left-[42%]" size={18} type="code" />
-                <Icon className="top-[48%] left-[65%]" size={18} type="circle" />
-                <Icon className="top-[40%] left-[82%]" size={20} type="palette" />
-
-                <Icon className="top-[52%] left-[5%]" size={18} type="cursor" />
-                <Icon className="top-[58%] left-[28%]" size={20} type="grid" />
-                <Icon className="top-[62%] left-[52%]" size={22} type="layers" />
-                <Icon className="top-[54%] left-[75%]" size={18} type="mobile" />
-                <Icon className="top-[60%] left-[94%]" size={18} type="square" />
-
-                <Icon className="top-[72%] left-[12%]" size={20} type="square" />
-                <Icon className="top-[75%] left-[38%]" size={22} type="component" />
-                <Icon className="top-[68%] left-[62%]" size={18} type="monitor" />
-                <Icon className="top-[80%] left-[82%]" size={20} type="type" />
-                <Icon className="top-[75%] left-[95%]" size={18} type="search" />
-
-                <Icon className="top-[88%] left-[8%]" size={22} type="search" />
-                <Icon className="top-[85%] left-[25%]" size={18} type="lightning" />
-                <Icon className="top-[92%] left-[48%]" size={20} type="pencil" />
-                <Icon className="top-[85%] left-[72%]" size={22} type="accessibility" />
+            {/* Brand Icons Layer */}
+            <div ref={containerRef} className="absolute inset-0 opacity-[0.35] dark:opacity-[0.5] text-[var(--icon-color)]">
+                {activeIconData.map((icon, i) => (
+                    <Icon
+                        key={`${icon.type}-${i}`}
+                        type={icon.type}
+                        size={14}
+                        style={{
+                            left: `${icon.x}%`,
+                            top: `${icon.y}%`,
+                        }}
+                    />
+                ))}
             </div>
         </div>
     );

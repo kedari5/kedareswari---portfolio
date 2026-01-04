@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import BackgroundLayer from "@/components/BackgroundLayer";
 import Image from "next/image";
+import BrandIcon from "@/components/BrandIcon";
 
 interface DesignProject {
     title: string;
@@ -76,12 +75,16 @@ export default async function DesignDetailPage({ params }: { params: Promise<{ s
     const heroSizeClass = heroSizeMap[slug] ?? "h-[400px] md:h-[600px]";
 
     if (!project) {
-        notFound();
+        // notFound(); // Removed as per instruction
+        return (
+            <div className="relative min-h-screen bg-transparent flex items-center justify-center">
+                <p className="text-2xl text-muted-foreground">Project not found.</p>
+            </div>
+        );
     }
 
     return (
-        <div className="relative min-h-screen bg-background">
-            <BackgroundLayer />
+        <div className="relative min-h-screen bg-transparent">
 
             <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:px-12 py-16">
                 {/* Back Button */}
@@ -90,30 +93,30 @@ export default async function DesignDetailPage({ params }: { params: Promise<{ s
                     className="inline-flex items-center gap-2 text-[14px] font-medium text-muted-foreground hover:text-foreground transition-colors mb-12 group"
                 >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-1 transition-transform"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                    Back to Design
+                    Design
                 </Link>
 
                 {/* Title Section */}
                 <div className="flex flex-col gap-4 mb-20">
-                    <h1 className="text-[40px] md:text-[56px] leading-[1.1] font-medium tracking-tight text-foreground select-none">
+                    <h1 className="text-[40px] md:text-[56px] leading-[1.1] font-medium tracking-tight select-none">
                         {project.title}
                     </h1>
-                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">{project.category}</span>
+                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">{project.category}</span>
                 </div>
 
                 {/* Content Sections */}
                 <div className="max-w-[800px] flex flex-col gap-20">
                     {/* 1. Concept Overview */}
                     <section className="flex flex-col gap-8">
-                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium text-primary tracking-tight">Concept Overview</h2>
-                        <p className="text-[20px] md:text-[24px] leading-[1.5] text-foreground font-light text-pretty">
+                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium tracking-tight">Concept Overview</h2>
+                        <p className="text-[20px] md:text-[24px] leading-[1.5] text-muted-foreground font-light text-pretty">
                             {project.concept}
                         </p>
                     </section>
 
                     {/* 2. Symbol Meaning */}
                     <section className="flex flex-col gap-8">
-                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium text-primary tracking-tight">Symbol Meaning</h2>
+                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium tracking-tight">Symbol Meaning</h2>
                         <div className="space-y-6">
                             {project.symbolMeaning.split("\n\n").map((para, i) => (
                                 <p key={i} className="text-[17px] md:text-[19px] leading-[1.7] text-muted-foreground whitespace-pre-line">
@@ -125,7 +128,7 @@ export default async function DesignDetailPage({ params }: { params: Promise<{ s
 
                     {/* 3. Color Rationale */}
                     <section className="flex flex-col gap-8">
-                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium text-primary tracking-tight">Color Rationale</h2>
+                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium tracking-tight">Color Rationale</h2>
                         <div className="space-y-6">
                             {project.colorRationale.split("\n\n").map((para, i) => (
                                 <p key={i} className="text-[17px] md:text-[19px] leading-[1.7] text-muted-foreground whitespace-pre-line">
@@ -137,7 +140,7 @@ export default async function DesignDetailPage({ params }: { params: Promise<{ s
 
                     {/* 4. Form & Visual Language */}
                     <section className="flex flex-col gap-8">
-                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium text-primary tracking-tight">Form & Visual Language</h2>
+                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium tracking-tight">Form & Visual Language</h2>
                         <div className="space-y-6">
                             {project.visualLanguage.split("\n\n").map((para, i) => (
                                 <p key={i} className="text-[17px] md:text-[19px] leading-[1.7] text-muted-foreground whitespace-pre-line">
@@ -149,7 +152,7 @@ export default async function DesignDetailPage({ params }: { params: Promise<{ s
 
                     {/* 5. Usage & Variations */}
                     <section className="flex flex-col gap-8">
-                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium text-primary tracking-tight">Usage & Variations</h2>
+                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium tracking-tight">Usage & Variations</h2>
                         <p className="text-[17px] md:text-[19px] leading-[1.7] text-muted-foreground">
                             {project.usageVariations}
                         </p>
@@ -157,24 +160,32 @@ export default async function DesignDetailPage({ params }: { params: Promise<{ s
 
                     {/* 6. Tools Used */}
                     <section className="flex flex-col gap-8">
-                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium text-primary tracking-tight">Tools Used</h2>
-                        <p className="text-[17px] md:text-[19px] leading-[1.7] text-muted-foreground">
-                            {project.tools}
-                        </p>
+                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#0122a8] to-[#3A7BEF] dark:from-white dark:to-[#6FAEFF]">Tools Used</h2>
+                        <div className="flex flex-wrap gap-4">
+                            {project.tools.split(/[,.\n]+/).map((toolName) => toolName.trim()).filter(Boolean).map((tool) => (
+                                <div
+                                    key={tool}
+                                    className="w-14 h-14 bg-slate-100 dark:bg-white/5 border border-black/5 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10 backdrop-blur-md rounded-[16px] transition-all hover:scale-105 active:scale-95 cursor-default flex items-center justify-center group relative shadow-sm"
+                                    title={tool}
+                                >
+                                    <BrandIcon name={tool} className="w-6 h-6" />
+                                </div>
+                            ))}
+                        </div>
                     </section>
                 </div>
 
                 {/* 9. Image Gallery */}
                 {project.gallery && project.gallery.length > 0 && (
-                    <section className="mt-32 pt-24 border-t border-border/50">
-                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium mb-12 text-primary tracking-tight">Gallery</h2>
+                    <section className="mt-32 pt-24 border-t border-white/5">
+                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium mb-12 tracking-tight">Gallery</h2>
 
                         {slug === "creative-minds-poster" ? (
                             // Vertical layout for Creative Minds poster
                             <div className="flex flex-col gap-12 max-w-[400px]">
                                 {project.gallery.map((img, idx) => (
                                     <div key={idx} className="space-y-4">
-                                        <div className="relative w-full border border-border rounded-[16px] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500" style={{ aspectRatio: '9/16' }}>
+                                        <div className="relative w-full border border-white/5 rounded-[16px] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500" style={{ aspectRatio: '9/16' }}>
                                             <Image
                                                 src={img.src}
                                                 alt={img.caption}
@@ -191,7 +202,7 @@ export default async function DesignDetailPage({ params }: { params: Promise<{ s
                             <div className="flex gap-8 md:gap-12 overflow-x-auto pb-12 scrollbar-none snap-x snap-mandatory -mx-6 px-6 md:-mx-12 md:px-12">
                                 {project.gallery.map((img, idx) => (
                                     <div key={idx} className="flex-shrink-0 w-[300px] md:w-[500px] lg:w-[600px] space-y-4 snap-center">
-                                        <div className="relative aspect-video w-full border border-border rounded-[16px] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500">
+                                        <div className="relative aspect-video w-full border border-white/5 rounded-[16px] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500">
                                             <Image
                                                 src={img.src}
                                                 alt={img.caption}

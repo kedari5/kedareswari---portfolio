@@ -1,19 +1,31 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
-import BackgroundLayer from "@/components/BackgroundLayer";
 import ProjectCarousel from "@/components/ProjectCarousel";
 import DesignCarousel from "@/components/DesignCarousel";
 import CapabilitiesPreview from "@/components/CapabilitiesPreview";
+import ContactPopup from "@/components/ContactPopup";
 
 export default function Home() {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted && resolvedTheme === "dark";
+
   return (
     <main className="flex flex-col pt-[64px]">
       {/* Hero Section */}
-      <section className="min-h-[calc(100dvh-64px)] flex flex-col justify-center items-center text-center px-6 md:px-24 w-full relative overflow-hidden bg-background selection:bg-primary/20">
-
-        {/* Background Layers */}
-        <BackgroundLayer />
+      <section className="min-h-[calc(100dvh-64px)] flex flex-col justify-center items-center text-center px-6 md:px-24 w-full relative overflow-hidden bg-transparent selection:bg-[#9CC9FF]/30">
 
         {/* 2. Main Content Stack (Centered) */}
         <div className="relative z-10 max-w-[800px] mx-auto w-full flex flex-col items-center gap-8 animate-in fade-in zoom-in-95 duration-1000 slide-in-from-bottom-4 fill-mode-backwards">
@@ -24,7 +36,7 @@ export default function Home() {
               Hi, I'm
             </p>
 
-            <h1 className="text-[56px] sm:text-[72px] md:text-[88px] leading-[1.1] font-medium tracking-tight text-foreground">
+            <h1 className="text-[56px] sm:text-[72px] md:text-[88px] leading-[1.1] font-medium tracking-tight hero-name">
               Kedareswari
             </h1>
 
@@ -37,26 +49,26 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row items-center gap-6 mt-8">
             <Link
               href="#projects"
-              className="px-8 py-3.5 bg-primary text-primary-foreground text-[16px] font-medium rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:bg-primary/90 active:scale-[0.98]"
+              className="px-8 py-3.5 bg-primary text-white text-[16px] font-medium rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:bg-primary/90 active:scale-[0.98]"
             >
               Explore Projects
             </Link>
 
-            <div className="group relative cursor-default">
-              <span className="text-[16px] text-muted-foreground font-medium transition-colors border-b border-transparent group-hover:text-foreground pb-0.5">
-                Explore Website
-              </span>
-              <span className="absolute left-full top-1/2 -translate-y-1/2 ml-3 w-max opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-xs text-muted-foreground bg-surface/80 backdrop-blur px-2 py-1 rounded border border-border pointer-events-none">
-                Identify the features which are in this website
-              </span>
-            </div>
+            <a
+              href="/docs/resume.docx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3.5 bg-secondary text-secondary-foreground text-[16px] font-medium rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:bg-secondary/90 active:scale-[0.98]"
+            >
+              Resume
+            </a>
           </div>
 
         </div>
       </section>
 
       {/* About Preview */}
-      <section className="min-h-[calc(100dvh-64px)] flex flex-col justify-center py-24 px-6 md:px-12 bg-surface">
+      <section id="about" className="min-h-[calc(100dvh-64px)] flex flex-col justify-center py-24 px-6 md:px-12">
         <div className="max-w-[1120px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="order-2 md:order-1">
             <h2 className="text-[32px] md:text-[40px] leading-[1.2] font-medium mb-6">
@@ -70,7 +82,7 @@ export default function Home() {
             </p>
           </div>
           {/* Profile Image */}
-          <div className="order-1 md:order-2 aspect-[4/5] bg-muted rounded-[24px] overflow-hidden relative border border-border md:w-3/4 md:ml-auto">
+          <div className="order-1 md:order-2 aspect-[4/5] bg-muted rounded-[24px] overflow-hidden relative border border-white/5 md:w-3/4 md:ml-auto">
             <Image
               src="/images/profile-portrait.jpg"
               alt="Kedareswari"
@@ -83,12 +95,14 @@ export default function Home() {
       </section>
 
       {/* Featured Projects */}
-      <section id="projects" className="min-h-[calc(100dvh-64px)] flex flex-col justify-center py-24 w-full">
+      <section id="projects" className="min-h-[calc(100dvh-64px)] flex flex-col justify-center py-24 w-full bg-transparent relative z-10 border-y border-white/5">
         <div className="max-w-[1280px] mx-auto w-full px-6 md:px-12 flex flex-col gap-12">
           {/* Header */}
-          <div className="flex justify-between items-end border-b border-border/50 pb-6">
+          <div className="flex justify-between items-end border-b border-white/5 pb-6">
             <div>
-              <h2 className="text-[32px] md:text-[48px] leading-[1.1] font-medium mb-2">Projects</h2>
+              <h2 className="text-[48px] md:text-[40px] leading-[1.1] font-medium mb-2 w-fit">
+                Projects
+              </h2>
               <p className="text-[16px] text-muted-foreground font-light">Thoughtful digital experiences.</p>
             </div>
             {/* Link removed as per request */}
@@ -99,12 +113,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="min-h-[calc(100dvh-64px)] flex flex-col justify-center py-24 w-full bg-surface border-t border-border">
+      {/* Design Preview */}
+      {/* Design Preview */}
+      <section id="designs" className="min-h-[calc(100dvh-64px)] flex flex-col justify-center py-24 w-full border-t border-white/5 bg-transparent relative z-10">
         <div className="max-w-[1280px] mx-auto w-full px-6 md:px-12 flex flex-col gap-12">
           {/* Header */}
-          <div className="flex justify-between items-end border-b border-border/50 pb-6">
+          <div className="flex justify-between items-end border-b border-white/5 pb-6">
             <div>
-              <h2 className="text-[32px] md:text-[48px] leading-[1.1] font-medium mb-2">Designs</h2>
+              <h2 className="text-[32px] md:text-[48px] leading-[1.1] font-medium mb-2 w-fit">
+                Designs
+              </h2>
               <p className="text-[16px] text-muted-foreground font-light">Aesthetics with purpose.</p>
             </div>
           </div>
@@ -115,21 +133,26 @@ export default function Home() {
       </section>
 
       {/* Capabilities Preview */}
-      <CapabilitiesPreview />
+      <section id="capabilities" className="w-full">
+        <CapabilitiesPreview />
+      </section>
 
       {/* CTA */}
-      <section className="min-h-[calc(100dvh-64px)] flex flex-col justify-center items-center py-32 px-6 md:px-12 max-w-[1120px] mx-auto w-full text-center">
+      <section id="collaboration" className="min-h-[calc(100dvh-64px)] flex flex-col justify-center items-center py-32 px-6 md:px-12 max-w-[1120px] mx-auto w-full text-center">
         <h2 className="text-[48px] leading-[56px] font-medium mb-6">Ready to collaborate?</h2>
         <p className="text-[20px] leading-[30px] text-muted-foreground mb-8 max-w-xl mx-auto">
           I’m currently available for full-time roles and freelance projects.
         </p>
-        <Link
-          href="#contact"
-          className="inline-block px-8 py-3 bg-primary text-background text-[16px] font-medium rounded-[10px] hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-ring"
+        <button
+          onClick={() => setIsContactOpen(true)}
+          className="inline-block px-10 py-4 bg-primary text-background text-[18px] font-semibold rounded-[16px] hover:brightness-110 active:scale-[0.98] transition-all focus:outline-none focus:ring-2 focus:ring-ring cursor-pointer"
         >
           Get in Touch
-        </Link>
+        </button>
       </section>
+
+      {/* Popups */}
+      <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
 
     </main>
   );

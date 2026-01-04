@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import BackgroundLayer from "@/components/BackgroundLayer";
 
 export const metadata: Metadata = {
   title: "Portfolio | Design & Code",
@@ -24,8 +25,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <div className="flex-1">
-            {children}
+          <div className="flex-1 relative">
+            <BackgroundLayer />
+            <main className="relative z-10 w-full overflow-x-hidden">
+              {children}
+            </main>
           </div>
           <Footer />
         </ThemeProvider>

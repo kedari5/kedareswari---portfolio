@@ -71,7 +71,7 @@ export default function ProjectCarousel() {
             {/* Left Navigation Button */}
             <button
                 onClick={() => scroll("left")}
-                className="absolute left-[-20px] md:left-[-40px] top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-background/80 backdrop-blur-md border border-border rounded-full flex items-center justify-center text-foreground hover:scale-110 active:scale-95 transition-all shadow-sm opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0 focus:opacity-100"
+                className="absolute left-[-20px] md:left-[-40px] top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-background border border-white/5 rounded-full flex items-center justify-center text-foreground hover:scale-110 active:scale-95 transition-all shadow-sm opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0 focus:opacity-100"
                 aria-label="Scroll left"
             >
                 <ChevronLeft className="w-6 h-6" />
@@ -80,7 +80,7 @@ export default function ProjectCarousel() {
             {/* Right Navigation Button */}
             <button
                 onClick={() => scroll("right")}
-                className="absolute right-[-20px] md:right-[-40px] top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-background/80 backdrop-blur-md border border-border rounded-full flex items-center justify-center text-foreground hover:scale-110 active:scale-95 transition-all shadow-sm opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0 focus:opacity-100"
+                className="absolute right-[-20px] md:right-[-40px] top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-background border border-white/5 rounded-full flex items-center justify-center text-foreground hover:scale-110 active:scale-95 transition-all shadow-sm opacity-0 group-hover/carousel:opacity-100 disabled:opacity-0 focus:opacity-100"
                 aria-label="Scroll right"
             >
                 <ChevronRight className="w-6 h-6" />
@@ -95,7 +95,7 @@ export default function ProjectCarousel() {
                     <Link
                         key={project.id}
                         href={project.link}
-                        className="flex-shrink-0 w-[320px] md:w-[380px] bg-surface rounded-[28px] p-8 border border-border/40 flex flex-col transition-all duration-300 hover:shadow-lg hover:border-border/80 group snap-center"
+                        className="flex-shrink-0 w-[320px] md:w-[380px] bg-card rounded-[24px] p-8 border border-white/10 flex flex-col transition-all duration-500 shadow-md hover:shadow-[0_25px_50px_-12px_rgba(111,174,255,0.4)] hover:border-primary/50 group snap-center"
                     >
                         <div className="relative aspect-square w-full mb-8 rounded-[16px] overflow-hidden bg-background">
                             <Image
@@ -105,14 +105,14 @@ export default function ProjectCarousel() {
                                 className="object-cover group-hover:scale-105 transition-transform duration-500"
                             />
                         </div>
-                        <div className="mt-auto">
-                            <span className="text-primary text-[12px] font-bold uppercase tracking-wider block mb-2">
+                        <div className="flex flex-col gap-1">
+                            <span className="bg-gradient-to-r from-[#0122a8] to-[#6FAEFF] bg-clip-text text-transparent text-[12px] font-bold uppercase tracking-wider block mb-2 w-fit">
                                 {project.category}
                             </span>
-                            <h3 className="text-[24px] font-medium text-foreground mb-2 group-hover:text-primary transition-colors">
+                            <h3 className="text-[24px] font-medium mb-2 group-hover:text-primary transition-colors">
                                 {project.title}
                             </h3>
-                            <p className="text-[15px] text-muted-foreground leading-relaxed">
+                            <p className="text-[15px] text-muted-foreground leading-relaxed line-clamp-2 min-h-[48px]">
                                 {project.description}
                             </p>
                         </div>

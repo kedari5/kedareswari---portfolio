@@ -4,11 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+import { Handshake } from "lucide-react";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isLogoModalOpen, setIsLogoModalOpen] = useState(false);
     const { theme, setTheme, resolvedTheme } = useTheme();
+
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -26,7 +28,7 @@ export default function Header() {
 
     return (
         <>
-            <header className="fixed top-0 left-0 w-full z-50 bg-background/90 backdrop-blur-md border-b border-border transition-colors duration-200">
+            <header className="fixed top-0 left-0 w-full z-50 bg-background/90 backdrop-blur-md border-b border-white/5 transition-colors duration-200">
                 <div className="w-full px-6 md:px-12 h-[64px] flex items-center justify-between relative">
                     {/* Logo - Click to Open Lightbox */}
                     <button
@@ -52,7 +54,7 @@ export default function Header() {
                         {mounted && (
                             <button
                                 onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-                                className="flex items-center justify-center w-12 h-12 rounded-full border border-border bg-surface shadow-sm text-foreground hover:bg-muted transition-all focus:outline-none focus:ring-2 focus:ring-primary"
+                                className="flex items-center justify-center w-12 h-12 rounded-full border border-white/5 bg-surface shadow-sm text-foreground hover:bg-muted transition-all focus:outline-none focus:ring-2 focus:ring-primary"
                                 aria-label="Toggle Theme"
                             >
                                 {resolvedTheme === 'dark' ? (
@@ -127,7 +129,7 @@ export default function Header() {
                     />
 
                     {/* Drawer Content */}
-                    <div className="fixed top-0 right-0 h-full w-[85%] sm:w-[400px] z-[70] bg-background shadow-2xl flex flex-col animate-in slide-in-from-right duration-500 ease-out border-l border-border">
+                    <div className="fixed top-0 right-0 h-full w-[85%] sm:w-[400px] z-[70] bg-background shadow-2xl flex flex-col animate-in slide-in-from-right duration-500 ease-out border-l border-white/5">
 
                         {/* 1. Header Area (Clean Close Button) */}
                         <div className="px-6 pt-8 pb-4">
@@ -148,7 +150,7 @@ export default function Header() {
                                 </div>
                                 <button
                                     onClick={() => setIsMenuOpen(false)}
-                                    className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-muted transition-colors text-muted-foreground hover:text-foreground border border-transparent hover:border-border/50"
+                                    className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-muted transition-colors text-muted-foreground hover:text-foreground border border-transparent hover:border-white/5"
                                     aria-label="Close Menu"
                                 >
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
@@ -158,20 +160,20 @@ export default function Header() {
 
                         {/* 2. Navigation Area */}
                         <nav className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-1">
-                            <MenuLink href="/" label="Dashboard" icon="dashboard" onClick={() => setIsMenuOpen(false)} />
-                            <MenuLink href="/projects" label="Projects" icon="projects" onClick={() => setIsMenuOpen(false)} />
-                            <MenuLink href="/design" label="Work & Design" icon="design" onClick={() => setIsMenuOpen(false)} />
-                            <MenuLink href="/capabilities" label="Capabilities" icon="sparkles" onClick={() => setIsMenuOpen(false)} />
-                            <MenuLink href="/about" label="Community" icon="users" onClick={() => setIsMenuOpen(false)} />
+                            <MenuLink href="/" label="Home" icon="dashboard" onClick={() => setIsMenuOpen(false)} />
+                            <MenuLink href="/#projects" label="Projects" icon="projects" onClick={() => setIsMenuOpen(false)} />
+                            <MenuLink href="/#designs" label="Designs" icon="design" onClick={() => setIsMenuOpen(false)} />
+                            <MenuLink href="/#capabilities" label="Capabilities" icon="sparkles" onClick={() => setIsMenuOpen(false)} />
+                            <MenuLink href="/#about" label="About" icon="users" onClick={() => setIsMenuOpen(false)} />
 
                             <div className="h-px bg-border/50 my-4 mx-2" />
 
-                            <MenuLink href="/resume" label="Resume" icon="file" onClick={() => setIsMenuOpen(false)} />
-                            <MenuLink href="/contact" label="Collaboration" icon="handshake" onClick={() => setIsMenuOpen(false)} />
+                            <MenuLink href="/docs/resume.docx" label="Resume" icon="file" onClick={() => setIsMenuOpen(false)} target="_blank" />
+                            <MenuLink href="/#collaboration" label="Contact" icon="handshake" onClick={() => setIsMenuOpen(false)} />
                         </nav>
 
                         {/* 3. Footer Area (Profile) */}
-                        <div className="p-4 border-t border-border/50">
+                        <div className="p-4 border-t border-white/5">
                             <Link
                                 href="/contact"
                                 onClick={() => setIsMenuOpen(false)}
@@ -203,20 +205,14 @@ export default function Header() {
 }
 
 // Helper component for menu links with icons
-function MenuLink({ href, label, icon, onClick, isActive }: { href: string; label: string; icon: string; onClick: () => void; isActive?: boolean }) {
+function MenuLink({ href, label, icon, onClick, isActive, target }: { href: string; label: string; icon: string; onClick: () => void; isActive?: boolean; target?: string }) {
     const icons: Record<string, React.ReactNode> = {
         dashboard: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>,
         projects: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><line x1="3" y1="9" x2="21" y2="9" /><line x1="9" y1="21" x2="9" y2="9" /></svg>,
         design: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r=".5" /><circle cx="17.5" cy="10.5" r=".5" /><circle cx="8.5" cy="7.5" r=".5" /><circle cx="6.5" cy="12.5" r=".5" /><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" /></svg>,
         sparkles: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" /></svg>,
         users: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>,
-        handshake: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-primary">
-                <path d="M12,2a2,2,0,0,0-2,2v0a2,2,0,0,0,2,2h0a2,2,0,0,0,2-2v0A2,2,0,0,0,12,2Zm8,5H17.4l-1.35-2a2,2,0,0,0-1.66-.9H9.61a2,2,0,0,0-1.66.9L6.6,7H4a2,2,0,0,0-2,2v1a2,2,0,0,0,2,2H5v9a2,2,0,0,0,2,2h4v-5h2v5h4a2,2,0,0,0,2-2V11h1a2,2,0,0,0,2-2V8A2,2,0,0,0,20,7Zm-8,7H11a1,1,0,0,1-1-1v0a1,1,0,0,1,1-1h1a1,1,0,0,1,1,1v0A1,1,0,0,1,12,14Z" />
-                <path d="M19.78 7.42C21.39 7.03 20.73 7 20.34 7H18V11H20V15C20 16.65 18.65 18 17 18H15V14H13V18H11V22H19C20.66 22 22 20.66 22 19V9C22 8.34 21.92 7.7 21.78 7.42Z" />
-                <path d="M13 10V6C13 4.35 11.65 3 10 3H4C2.35 3 1 4.35 1 6V11C1 12.65 2.35 14 4 14H6V18H4V22H12V18H10V14H12C13.65 14 15 12.65 15 11V10H13ZM6 11V6H10V11H6Z" />
-            </svg>
-        ),
+        handshake: <Handshake size={20} />,
         file: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14.5 2 14.5 7 20 7" /></svg>,
     };
 
@@ -224,6 +220,8 @@ function MenuLink({ href, label, icon, onClick, isActive }: { href: string; labe
         <Link
             href={href}
             onClick={onClick}
+            target={target}
+            rel={target === "_blank" ? "noopener noreferrer" : undefined}
             className={`flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all group ${isActive
                 ? 'bg-primary/10 text-primary'
                 : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'

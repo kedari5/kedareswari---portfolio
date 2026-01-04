@@ -1,138 +1,246 @@
 @import "tailwindcss";
 
-:root {
-  /* Brand Palette (Reference) */
-  --brand-blue-900: #0B3C8A;
-  --brand-blue-800: #1E5FD6;
-  --brand-blue-700: #3A7BEF;
-  --brand-blue-600: #6FAEFF;
-  --brand-blue-500: #9CC9FF;
+@theme {
+  --color-brand-blue-900: #0B3C8A;
+  --color-brand-blue-800: #1E5FD6;
+  --color-brand-blue-700: #3A7BEF;
+  --color-brand-blue-600: #6FAEFF;
+  --color-brand-blue-500: #9CC9FF;
+  --color-brand-navy: #0122a8;
 
-  /* Light Theme Tokens */
-  --bg-main: #FAFAF8;
-  --bg-surface: #FFFFFF;
+  --color-background: var(--bg-main);
+  --color-surface: var(--bg-surface);
+  --color-foreground: var(--text-primary);
+  --color-muted-foreground: var(--text-secondary);
+  --color-border: var(--border-soft);
+  --color-primary: var(--accent-main);
+  --color-primary-muted: var(--accent-muted);
+  --color-ring: var(--focus-ring);
+}
+
+:root {
+  --bg-main: #ffffff;
+  --bg-alt: #ffffff;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-popup: #FAFAF8;
   --text-primary: #0122a8;
-  /* Deep Blue for Headings */
   --text-secondary: #52668D;
-  /* Muted Grey-Blue for Matter */
-  --border-soft: #60a1fe44;
+  --border-soft: #e2e8f0;
   --accent-main: #6FAEFF;
   --accent-muted: #60a1fe22;
   --focus-ring: #0122a8;
-
-  /* Spacing Scale (Reference) */
-  --space-4: 4px;
-  --space-8: 8px;
-  --space-16: 16px;
-  --space-24: 24px;
-  --space-32: 32px;
-  --space-48: 48px;
-  --space-64: 64px;
-  --space-96: 96px;
+  --icon-color: #7fb0f0;
+  /* Vibrant navy for clear visibility */
+  /* Much lighter blue for subtle background texture */
 }
 
-/* Dark theme tokens are handled via the .dark class managed by next-themes */
-
-/* Manual Theme Toggle Support */
 .dark {
-  --bg-main: #1A2640;
-  --bg-surface: #1E2B4A;
-  --text-primary: #FFFFFF;
-  /* Pure White for Headings */
-  --text-secondary: #A0B3D9;
-  /* Soft Blue-Grey for Matter */
-  --border-soft: #60a1fe44;
-  --accent-main: #6FAEFF;
-  --accent-muted: #60a1fe22;
-  --focus-ring: #60a1fe;
+  --bg-main: #010a2e;
+  --bg-alt: #010a2e;
+  --bg-surface: #010a2e;
+  --bg-card: #0a143d;
+  --bg-popup: rgba(1, 10, 46, 0.7);
+  /* Slightly lighter clear Navy for dark cards */
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --border-soft: #1E293B;
+  --accent-main: #38BDF8;
+  --accent-muted: rgba(56, 189, 248, 0.1);
+  --focus-ring: #38BDF8;
+  --icon-color: #38BDF8;
+  /* Vibrant sky blue for high contrast */
+  /* Light blue for 'ghost' effect in dark mode */
+}
+
+.bg-section {
+  background-color: var(--bg-alt);
+}
+
+.bg-card {
+  background-color: var(--bg-card) !important;
 }
 
 @layer base {
-  :root {
-    --color-background: var(--bg-main);
-    --color-surface: var(--bg-surface);
-    --color-foreground: var(--text-primary);
-    --color-muted-foreground: var(--text-secondary);
-    --color-border: var(--border-soft);
-    --color-primary: var(--accent-main);
-    --color-primary-muted: var(--accent-muted);
-    --color-ring: var(--focus-ring);
-
-    /* Mapping standard Tailwind names to our specific tokens where appropriate */
-    --color-muted: var(--bg-surface);
-    /* Using surface as muted bg often */
-
-    --font-lucida: "Lucida Sans", "Lucida Grande", system-ui, sans-serif;
-
-    --radius-button: 10px;
-    --radius-card: 16px;
-    --radius-input: 8px;
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: "Lucida Sans", "Lucida Grande", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-}
 
-body {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  font-family: "Lucida Sans", "Lucida Grande", system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--text-primary);
-  font-weight: 500;
-  /* Medium */
-}
-
-p {
-  color: var(--text-secondary);
-  line-height: 1.625;
-  /* ~26px line height for 16px font */
-}
-
-/* Focus Styles - Strict adherence */
-:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
-}
-
-/* Base Transition for Theme Switching */
-body,
-div,
-section,
-header,
-footer,
-a,
-button,
-input {
-  transition-property: color, background-color, border-color, opacity, transform;
-  transition-duration: 200ms;
-  transition-timing-function: ease-out;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  h1,
+  h2 {
+    background: linear-gradient(to right, #0122a8, #6FAEFF);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent !important;
+    font-weight: 500;
   }
-}
 
-/* Hide Scrollbar Utilities */
-.scrollbar-none {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
+  /* In dark mode, apply vibrant and readable gradients */
+  .dark h1,
+  .dark h2 {
+    background: linear-gradient(to right, #0122a8, #6FAEFF);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent !important;
+  }
 
-.scrollbar-none::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari and Opera */
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #0122a8;
+    font-weight: 500;
+  }
+
+  /* In dark mode, headings turn white EXCEPT inside specific light containers */
+  .dark h3,
+  .dark h4,
+  .dark h5,
+  .dark h6 {
+    color: #F8FAFC;
+  }
+
+  /* Ensure text inside carousel cards (bg-card) is light in dark mode since cards are now navy */
+  .dark .bg-card h1,
+  .dark .bg-card h2,
+  .dark .bg-card h3,
+  .dark .bg-card h4,
+  .dark .bg-card h5,
+  .dark .bg-card h6 {
+    color: #F8FAFC !important;
+    transition: color 0.3s ease;
+  }
+
+  /* Allow hover color to work in dark mode cards */
+  .dark .bg-card:hover h1,
+  .dark .bg-card:hover h2,
+  .dark .bg-card:hover h3,
+  .dark .bg-card:hover h4,
+  .dark .bg-card:hover h5,
+  .dark .bg-card:hover h6 {
+    color: var(--accent-main) !important;
+  }
+
+  .dark .bg-card p,
+  .dark .bg-card li,
+  .dark .bg-card span:not(.text-transparent) {
+    color: #CBD5E1 !important;
+    /* Soft light gray for readability */
+  }
+
+  .dark .bg-card .text-muted-foreground {
+    color: #94A3B8 !important;
+  }
+
+  /* Ensure gradient text (like category labels) still works and is readable inside bg-card in dark mode */
+  .dark .bg-card .text-transparent {
+    background-image: linear-gradient(to right, #6FAEFF, #38BDF8) !important;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+
+  /* Fix image backgrounds inside white cards in dark mode - they should stay light */
+  .dark .bg-card .bg-background {
+    background-color: #f1f5f9 !important;
+    border: 1px solid rgba(1, 34, 168, 0.05);
+  }
+
+  /* Correct the Kedareswari name color in dark mode */
+  .dark .text-\[\#0122a8\]:not(.bg-card *) {
+    color: #F8FAFC !important;
+  }
+
+  .hero-name {
+    color: #0122a8 !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    background-clip: initial !important;
+    -webkit-background-clip: initial !important;
+  }
+
+  .dark .hero-name {
+    color: #38BDF8 !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    background-clip: initial !important;
+    -webkit-background-clip: initial !important;
+    /* Brand Blue 600 for dark mode as requested */
+  }
+
+  /* Base Utility Classes for solid backgrounds */
+  .bg-surface {
+    background-color: var(--bg-surface) !important;
+  }
+
+  .bg-background {
+    background-color: var(--bg-main) !important;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  body,
+  header,
+  footer,
+  .bg-surface,
+  .bg-background {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  a,
+  button,
+  input {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px) translateX(0px);
+    }
+
+    33% {
+      transform: translateY(-10px) translateX(5px);
+    }
+
+    66% {
+      transform: translateY(5px) translateX(-5px);
+    }
+
+    100% {
+      transform: translateY(0px) translateX(0px);
+    }
+  }
+
+  .animate-float-slow {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .bg-icon-transition {
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
 }

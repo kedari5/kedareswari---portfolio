@@ -1,18 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import BackgroundLayer from "@/components/BackgroundLayer";
 
 export default function AboutPage() {
     return (
-        <main className="min-h-[calc(100dvh-64px)] w-full flex items-center bg-background relative overflow-hidden pt-[32px] md:pt-0">
-            <BackgroundLayer />
+        <main className="min-h-[calc(100dvh-64px)] w-full flex items-center bg-transparent relative overflow-hidden pt-[32px] md:pt-0">
 
             <div className="w-full max-w-[1280px] mx-auto px-6 md:px-12 py-12 md:py-24 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center">
 
                     {/* Left: Text Content */}
                     <div className="flex flex-col gap-8 order-2 md:order-1 animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-backwards">
-                        <h1 className="text-[40px] sm:text-[48px] md:text-[56px] lg:text-[64px] leading-[1.1] font-medium tracking-tight text-foreground">
+                        <h1 className="text-[40px] sm:text-[48px] md:text-[56px] lg:text-[64px] leading-[1.1] font-medium tracking-tight">
                             Curiosity and clarity <br className="hidden md:block" /> shape every decision.
                         </h1>
 
@@ -44,7 +42,7 @@ export default function AboutPage() {
                                 src="/images/profile-portrait.jpg"
                                 alt="Kedareswari"
                                 fill
-                                className="object-cover object-top"
+                                className="object-cover object-center"
                                 priority
                                 sizes="(max-width: 768px) 100vw, 50vw"
                             />

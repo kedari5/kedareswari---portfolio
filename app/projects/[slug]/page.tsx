@@ -1,10 +1,11 @@
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import BackgroundLayer from "@/components/BackgroundLayer";
 import Image from "next/image";
 
 // Data could be moved to a shared file later
+import BrandIcon from "@/components/BrandIcon";
+
 const projectsData: Record<string, {
     title: string;
     category: string;
@@ -53,13 +54,13 @@ const projectsData: Record<string, {
         timeline: "2025",
         images: [
             { src: "/images/build-bond/cover.png", caption: "App Visualization" },
-            { src: "/images/build-bond/logo_splash.png", caption: "Identity & Symbol" },
-            { src: "/images/build-bond/onboarding.png", caption: "Secure Onboarding" },
-            { src: "/images/build-bond/dashboard.png", caption: "Parent Dashboard" },
-            { src: "/images/build-bond/tasks_list.png", caption: "Tasks & Challenges" },
-            { src: "/images/build-bond/create_task.png", caption: "Task Creation Flow" },
-            { src: "/images/build-bond/activities_list.png", caption: "Activities & Journals" },
-            { src: "/images/build-bond/create_activity.png", caption: "Journal Prompts" }
+            { src: "/images/build-bond/logo_splash.png", caption: "Logo Design" },
+            { src: "/images/build-bond/onboarding.png", caption: "Onboarding Flow" },
+            { src: "/images/build-bond/dashboard.png", caption: "Main Page" },
+            { src: "/images/build-bond/tasks_list.png", caption: "Added Tasks" },
+            { src: "/images/build-bond/create_task.png", caption: "Added Challenges" },
+            { src: "/images/build-bond/activities_list.png", caption: "Added Journals" },
+            { src: "/images/build-bond/create_activity.png", caption: "Added Activity" }
         ]
     },
     "krishi-sakhi": {
@@ -74,14 +75,14 @@ const projectsData: Record<string, {
             { title: "Color Rationale", body: "Green is the primary color, representing nature, growth, and trust. Light backgrounds were chosen for outdoor readability under bright sunlight. Accent colors are used sparingly to guide attention." },
             { title: "Interface Design Decisions", body: "We implemented card-based layouts for market prices to make them differentiable at a glance. Large readable text, simple navigation, and a chat interface similar to WhatsApp ensured familiarity." },
             { title: "Core Features", body: "Real-time Market Prices, Accurate Weather information, an AI chat assistant for queries, and robust Multilingual support for inclusivity." },
-            { title: "Tools & Technologies Used", body: "Python Flask, HTML, CSS, JavaScript" }
+            { title: "Tools & Technologies Used", body: "Python, Flask, HTML, CSS, JavaScript" }
         ],
         timeline: "2025",
         imageAspectRatio: "horizontal",
         images: [
-            { src: "/images/krishi-sakhi/landing_page.png", caption: "Landing Page" },
-            { src: "/images/krishi-sakhi/login.png", caption: "Login & Signup" },
-            { src: "/images/krishi-sakhi/languages.png", caption: "Multilingual Support" },
+            { src: "/images/krishi-sakhi/landing_page.png", caption: "Dashboard" },
+            { src: "/images/krishi-sakhi/login.png", caption: "Voice & Text based Login & Signup" },
+            { src: "/images/krishi-sakhi/languages.png", caption: "Multi-lingual Support" },
             { src: "/images/krishi-sakhi/market_prices.png", caption: "Market Prices Dashboard" },
             { src: "/images/krishi-sakhi/weather.png", caption: "Weather Information" },
             { src: "/images/krishi-sakhi/chat_interface.png", caption: "AI Chat Assistant" }
@@ -96,9 +97,9 @@ const projectsData: Record<string, {
             { title: "Design Objective", body: "The primary objective was to simplify complex government data into actionable insights, ensuring role-based clarity and predictability for officials at various administrative levels." },
             { title: "Visual Language & Layout Thinking", body: "We adopted a clean, card-based dashboard layout with structured grids. This established a clear hierarchy, allowing users to move naturally from high-level summaries to granular details." },
             { title: "Color & Meaning", body: "Green represents progress and growth, while Orange aligns with the governance identity. Neutral backgrounds were used to balance the density of information and maintain readability.Flag colors which represent nation." },
-            { title: "UI & UX Decisions", body: "Key decisions included role-based navigation paths, visual progress bars with percentage indicators, GIS maps for geographic clarity, and modal-based workflows for DPR uploads." },
+            { title: "UI & UX Decisions", body: "Key decisions included role-based navigation paths, visual progress bars with percentage indicators, GIS maps for geographic clarity, and visual based workflows for DPR uploads." },
             { title: "My Role", body: "I served as a Frontend Developer & UI Implementer, responsible for crafting the dashboard layouts, optimizing workflows, and ensuring data clarity across the portal." },
-            { title: "Tools & Technologies Used", body: "MERN Stack, PostgreSQL, Supabase" }
+            { title: "Tools & Technologies Used", body: "MongoDB, Express, React, Node.js, PostgreSQL, Supabase" }
         ],
         timeline: "2025",
         imageAspectRatio: "horizontal",
@@ -119,7 +120,7 @@ const projectsData: Record<string, {
         category: "Product Case Study",
         role: "Design & Development",
         content: [
-            { title: "Project Overview", body: "This portfolio was built not just as a gallery of work, but as a standalone product designed for recruiters and hiring managers. It prioritizes clarity, performance, and a premium user experience." },
+            { title: "Project Overview", body: "This portfolio was built not just as a gallery of work, but as a standalone product designed for creative show case. It prioritizes clarity, performance, and a premium user experience." },
             { title: "Design Intent", body: "The design philosophy focuses on a calm, editorial aesthetic. By respecting the user's attention with a clean structure and minimal distractions, the content takes center stage." },
             { title: "Logo & Symbol Meaning", body: "The bird symbol represents freedom of thought and perspective. Its upward trajectory signifies growth and curiosity, while the minimal form ensures scalability and memorability." },
             { title: "Color Meaning", body: "Blue tones were selected to evoke trust, calmness, and dependability. Neutral backgrounds provide focus and high readability, with accents used sparingly to guide the eye." },
@@ -129,15 +130,16 @@ const projectsData: Record<string, {
             { title: "Outcome", body: "The final result demonstrates holistic product thinking, balancing aesthetic design with robust frontend engineering." },
             {
                 title: "Tools Used",
-                body: "Design & UX\nFigma \n\n Frontend\nHTML, CSS, JS, React / Next.js\n\nBackend & Data\nNext.js API Routes\n\nTesting & Validation\nMaze, Hotjar\n\nDeployment & Versioning\nGitHub, Vercel"
+                body: "Figma, React, Next.js, GitHub, Vercel, Spreadsheets, Google Apps Script"
             }
         ],
         timeline: "2025",
+        imageAspectRatio: "horizontal",
         images: [
             { src: "/images/portfolio/home.png", caption: "Home Page" },
-            { src: "/images/portfolio/projects.png", caption: "Projects Showcase" },
-            { src: "/images/portfolio/case_study.png", caption: "Case Study Layout" },
-            { src: "/images/portfolio/about.png", caption: "About Page" }
+            { src: "/images/portfolio/projects.png", caption: "Explore projects" },
+            { src: "/images/portfolio/case_study.png", caption: "Explore Designs" },
+            { src: "/images/portfolio/about.png", caption: "collaboration" }
         ]
     }
 };
@@ -155,13 +157,12 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
     }
 
     return (
-        <div className="relative min-h-[calc(100dvh-64px)] overflow-hidden">
-            <BackgroundLayer />
+        <div className="relative min-h-[calc(100dvh-64px)] overflow-hidden bg-transparent">
             <div className="relative z-10 max-w-[1120px] mx-auto px-6 md:px-12 py-24 select-none">
                 {/* Header */}
                 <div className="mb-24">
                     <Link href="/projects" className="text-muted-foreground hover:text-foreground transition-colors mb-8 inline-block focus:outline-none focus:ring-2 focus:ring-ring rounded px-1">&larr; Back to Projects</Link>
-                    <h1 className="text-[48px] sm:text-[56px] md:text-[64px] leading-[1.1] font-medium mb-4 text-foreground tracking-tight">{project.title}</h1>
+                    <h1 className="text-[48px] sm:text-[56px] md:text-[64px] leading-[1.1] font-medium mb-4 tracking-tight">{project.title}</h1>
                     <p className="text-[20px] md:text-[24px] leading-[32px] text-muted-foreground font-light">{project.category}</p>
                 </div>
 
@@ -170,23 +171,30 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                     <div className="md:col-span-8 space-y-24">
                         {project.content.map((section, idx) => (
                             <section key={idx} className="group">
-                                <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium mb-6 text-foreground tracking-tight group-hover:text-primary transition-colors duration-500">
+                                <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium mb-6 tracking-tight">
                                     {section.title}
                                 </h2>
                                 <div className="space-y-10">
                                     {section.body.split('\n\n').map((block, bIdx) => {
                                         const lines = block.split('\n');
                                         // Specific layout for Tools: First line is Subheading, rest is Matter
-                                        if (lines.length > 1 && section.title.toLowerCase().includes('tools')) {
+                                        // Specific layout for Tools
+                                        if (section.title.toLowerCase().includes('tools')) {
                                             return (
-                                                <div key={bIdx} className="space-y-3">
-                                                    <h3 className="text-[13px] font-bold text-foreground uppercase tracking-widest">{lines[0].trim()}</h3>
-                                                    <p className="text-[17px] md:text-[18px] leading-[1.8] text-muted-foreground font-light whitespace-pre-wrap">
-                                                        {lines.slice(1).join('\n').trim()}
-                                                    </p>
+                                                <div key={bIdx} className="flex flex-wrap gap-4">
+                                                    {block.split(/[,/\n]+/).map((toolName) => toolName.trim()).filter(Boolean).map((tool) => (
+                                                        <div
+                                                            key={tool}
+                                                            className="w-14 h-14 bg-slate-100 dark:bg-white/5 border border-black/5 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10 backdrop-blur-md rounded-[16px] transition-all hover:scale-105 active:scale-95 cursor-default flex items-center justify-center group relative shadow-sm"
+                                                            title={tool}
+                                                        >
+                                                            <BrandIcon name={tool} className="w-6 h-6" />
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             );
                                         }
+
                                         return (
                                             <p key={bIdx} className="text-[17px] md:text-[18px] leading-[1.8] text-muted-foreground text-pretty font-light whitespace-pre-wrap">
                                                 {block}
@@ -201,8 +209,8 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
                     {/* Sidebar Details */}
                     <div className="md:col-span-4 lg:pl-12">
-                        <div className="p-8 bg-surface/80 backdrop-blur-md rounded-[28px] border border-border sticky top-24 shadow-sm hover:shadow-md transition-all duration-500">
-                            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-primary/80 mb-10">Project Details</h3>
+                        <div className="p-8 bg-surface/80 backdrop-blur-md rounded-[28px] border border-white/5 sticky top-24 shadow-sm hover:shadow-md transition-all duration-500">
+                            <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-10">Project Details</h3>
                             <ul className="space-y-8">
                                 <li className="flex flex-col gap-2">
                                     <span className="text-[12px] text-muted-foreground font-bold uppercase tracking-[0.1em]">Category</span>
@@ -223,12 +231,12 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
                 {/* Final Screens Gallery - Moved outside grid to use full right space */}
                 {project.images && project.images.length > 0 && (
-                    <section className="pt-24 mt-24 border-t border-border/50">
-                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium mb-12 text-foreground tracking-tight">Final Screens</h2>
+                    <section className="pt-24 mt-24 border-t border-white/5">
+                        <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium mb-12 tracking-tight">Final Screens</h2>
                         <div className="flex gap-8 md:gap-12 overflow-x-auto pb-12 scrollbar-none snap-x snap-mandatory -mx-6 px-6 md:-mx-12 md:px-12">
                             {project.images.map((img, idx) => (
                                 <div key={idx} className={`flex-shrink-0 space-y-4 snap-center ${project.imageAspectRatio === "horizontal" ? "w-[400px] md:w-[600px] lg:w-[800px]" : "w-[280px] md:w-[320px] lg:w-[360px]"}`}>
-                                    <div className={`relative w-full bg-surface border border-border rounded-[24px] md:rounded-[32px] overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 ${project.imageAspectRatio === "horizontal" ? "aspect-video" : "aspect-[9/19.5]"}`}>
+                                    <div className={`relative w-full bg-surface border border-white/5 rounded-[24px] md:rounded-[32px] overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 ${project.imageAspectRatio === "horizontal" ? "aspect-video" : "aspect-[9/19.5]"}`}>
                                         <Image
                                             src={img.src}
                                             alt={img.caption}
