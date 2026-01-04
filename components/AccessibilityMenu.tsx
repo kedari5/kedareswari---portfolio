@@ -1,150 +1,251 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+import {
+    Eye,
+    Type,
+    MoveHorizontal,
+    MoveVertical,
+    MousePointer2,
+    Image as ImageIcon,
+    RotateCcw,
+    Sun,
+    Moon,
+    Contrast,
+    BookOpen
+} from "lucide-react";
 
-export default function AccessibilityMenu({ onClose }: { onClose: () => void }) {
-    // Placeholder states for UI demonstration
-    const [textSize, setTextSize] = useState(100);
-    const [isDyslexic, setIsDyslexic] = useState(false);
-    const [isHighContrast, setIsHighContrast] = useState(false);
-
+export default function AccessibilityMenu() {
     const { theme, setTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
-    // useEffect only runs on the client, so now we can safely show the UI
+    // Accessibility States
+    const [textSize, setTextSize] = useState(100);
+    const [lineHeight, setLineHeight] = useState(150);
+    const [letterSpacing, setLetterSpacing] = useState(0);
+    const [isDyslexiaFont, setIsDyslexiaFont] = useState(false);
+    const [isHighContrast, setIsHighContrast] = useState(false);
+    const [highlightLinks, setHighlightLinks] = useState(false);
+    const [hideImages, setHideImages] = useState(false);
+    const [largeCursor, setLargeCursor] = useState(false);
+    const [textToSpeech, setTextToSpeech] = useState(false);
+
     useEffect(() => {
-        setMounted(true);
-    }, []);
+        // Apply changes to document root
+        const root = document.documentElement;
 
-    if (!mounted) {
-        return null;
+        // Text Size
+        root.style.fontSize = `${textSize}%`;
+
+        // Line Height
+        root.style.setProperty("--acc-line-height", `${lineHeight}%`);
+        document.body.style.lineHeight = `${lineHeight}%`;
+
+        // Letter Spacing
+        document.body.style.letterSpacing = `${letterSpacing}px`;
+
+        // Dyslexia Font
+        if (isDyslexiaFont) {
+            document.body.classList.add("font-dyslexia");
+        } else {
+            document.body.classList.remove("font-dyslexia");
+        }
+
+        // High Contrast / Invert
+        if (isHighContrast) {
+            document.body.classList.add("filter-invert");
+        } else {
+            document.body.classList.remove("filter-invert");
+        }
+
+        // Highlight Links
+        if (highlightLinks) {
+            document.body.classList.add("highlight-links");
+        } else {
+            document.body.classList.remove("highlight-links");
+        }
+
+        // Hide Images
+        if (hideImages) {
+            document.body.classList.add("hide-images");
+        } else {
+            document.body.classList.remove("hide-images");
+        }
+
+        // Large Cursor
+        if (largeCursor) {
+            document.body.classList.add("cursor-large");
+        } else {
+            document.body.classList.remove("cursor-large");
+        }
+
+    }, [textSize, lineHeight, letterSpacing, isDyslexiaFont, isHighContrast, highlightLinks, hideImages, largeCursor]);
+
+    const resetSettings = () => {
+        setTextSize(100);
+        setLineHeight(150);
+        setLetterSpacing(0);
+        setIsDyslexiaFont(false);
+        setIsHighContrast(false);
+        setHighlightLinks(false);
+        setHideImages(false);
+        setLargeCursor(false);
+        setTextToSpeech(false);
+        setTheme("light");
+    };
+
+    if (!isOpen) {
+        return (
+            <button
+                onClick={() => setIsOpen(true)}
+                className="flex items-center justify-center w-12 h-12 rounded-full border border-white/5 bg-surface shadow-sm text-foreground hover:bg-muted transition-all focus:outline-none focus:ring-2 focus:ring-primary"
+                aria-label="Open Accessibility Menu"
+            >
+                <Eye className="w-5 h-5" />
+            </button>
+        );
     }
 
     return (
-        <div className="absolute top-[80px] right-8 w-80 bg-surface border border-white/5 rounded-[16px] shadow-xl p-6 z-50 animate-in fade-in slide-in-from-top-2">
-            <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/5">
-                <h3 className="font-medium text-lg text-foreground">Accessibility</h3>
-                <button onClick={onClose} className="text-muted-foreground hover:text-foreground">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
+        <div className="fixed top-20 right-6 z-50 w-[320px] bg-background/95 backdrop-blur-md border border-border shadow-2xl rounded-2xl overflow-hidden flex flex-col max-h-[calc(100vh-100px)] animate-in fade-in zoom-in-95 duration-200">
+
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-border bg-muted/30">
+                <div className="flex items-center gap-2">
+                    <Eye className="w-5 h-5 text-primary" />
+                    <h2 className="font-semibold text-foreground">Accessibility</h2>
+                </div>
+                <button
+                    onClick={() => setIsOpen(false)}
+                    className="p-1.5 hover:bg-muted rounded-full transition-colors"
+                >
+                    <span className="sr-only">Close</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
             </div>
 
-            <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
-                {/* Text to Speech */}
-                <div className="flex justify-between items-center">
-                    <span className="text-sm text-foreground">Text to Speech</span>
-                    <ToggleSwitch />
-                </div>
+            <div className="flex-1 overflow-y-auto p-4 space-y-6">
 
-                {/* Text Size */}
-                <div className="flex flex-col gap-2">
-                    <span className="text-sm text-foreground">Text Size: {textSize}%</span>
-                    <div className="flex gap-2">
-                        <button
-                            onClick={() => setTextSize(Math.max(80, textSize - 10))}
-                            className="flex-1 py-1 bg-muted rounded-[8px] hover:bg-border transition-colors text-sm"
-                        >
-                            A-
-                        </button>
-                        <button
-                            onClick={() => setTextSize(Math.min(150, textSize + 10))}
-                            className="flex-1 py-1 bg-muted rounded-[8px] hover:bg-border transition-colors text-sm"
-                        >
-                            A+
-                        </button>
-                    </div>
-                </div>
-
-                {/* Text Spacing & Line Height */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-2">
-                        <span className="text-sm text-foreground">Line Height</span>
-                        <div className="flex gap-1">
-                            <button className="flex-1 py-1 bg-muted rounded-[8px] hover:bg-border">1x</button>
-                            <button className="flex-1 py-1 bg-muted rounded-[8px] hover:bg-border">1.5x</button>
+                {/* Text Adjustments */}
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <Type className="w-4 h-4 text-muted-foreground" />
+                            <span className="text-sm font-medium">Text Size</span>
+                        </div>
+                        <div className="flex items-center bg-muted rounded-lg p-1">
+                            <button onClick={() => setTextSize(prev => Math.max(80, prev - 10))} className="w-8 h-8 flex items-center justify-center hover:bg-background rounded">-</button>
+                            <span className="w-12 text-center text-sm font-mono">{textSize}%</span>
+                            <button onClick={() => setTextSize(prev => Math.min(150, prev + 10))} className="w-8 h-8 flex items-center justify-center hover:bg-background rounded">+</button>
                         </div>
                     </div>
-                    <div className="flex flex-col gap-2">
-                        <span className="text-sm text-foreground">Spacing</span>
-                        <div className="flex gap-1">
-                            <button className="flex-1 py-1 bg-muted rounded-[8px] hover:bg-border">-</button>
-                            <button className="flex-1 py-1 bg-muted rounded-[8px] hover:bg-border">+</button>
+
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <MoveVertical className="w-4 h-4 text-muted-foreground" />
+                            <span className="text-sm font-medium">Line Height</span>
+                        </div>
+                        <div className="flex items-center bg-muted rounded-lg p-1">
+                            <button onClick={() => setLineHeight(prev => Math.max(100, prev - 10))} className="w-8 h-8 flex items-center justify-center hover:bg-background rounded">-</button>
+                            <span className="w-12 text-center text-sm font-mono">{lineHeight}%</span>
+                            <button onClick={() => setLineHeight(prev => Math.min(250, prev + 10))} className="w-8 h-8 flex items-center justify-center hover:bg-background rounded">+</button>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <MoveHorizontal className="w-4 h-4 text-muted-foreground" />
+                            <span className="text-sm font-medium">Spacing</span>
+                        </div>
+                        <div className="flex items-center bg-muted rounded-lg p-1">
+                            <button onClick={() => setLetterSpacing(prev => Math.max(0, prev - 1))} className="w-8 h-8 flex items-center justify-center hover:bg-background rounded">-</button>
+                            <span className="w-12 text-center text-sm font-mono">{letterSpacing}</span>
+                            <button onClick={() => setLetterSpacing(prev => Math.min(10, prev + 1))} className="w-8 h-8 flex items-center justify-center hover:bg-background rounded">+</button>
                         </div>
                     </div>
                 </div>
+
+                <div className="h-px bg-border my-2" />
 
                 {/* Toggles */}
-                <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                        <span className="text-sm text-foreground">Highlight Links</span>
-                        <ToggleSwitch />
-                    </div>
-                    <div className="flex justify-between items-center">
-                        <span className="text-sm text-foreground">Dyslexia-Friendly</span>
-                        <ToggleSwitch />
-                    </div>
-                    <div className="flex justify-between items-center">
-                        <span className="text-sm text-foreground">Hide Images</span>
-                        <ToggleSwitch />
-                    </div>
-                    <div className="flex justify-between items-center">
-                        <span className="text-sm text-foreground">Invert Colors</span>
-                        <ToggleSwitch />
-                    </div>
+                <div className="grid grid-cols-2 gap-3">
+                    <button
+                        onClick={() => setIsDyslexiaFont(!isDyslexiaFont)}
+                        className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all gap-2 ${isDyslexiaFont ? 'bg-primary/10 border-primary text-primary' : 'bg-background border-border hover:bg-muted'}`}
+                    >
+                        <BookOpen className="w-5 h-5" />
+                        <span className="text-xs font-medium">Dyslexia Font</span>
+                    </button>
+
+                    <button
+                        onClick={() => setHighlightLinks(!highlightLinks)}
+                        className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all gap-2 ${highlightLinks ? 'bg-primary/10 border-primary text-primary' : 'bg-background border-border hover:bg-muted'}`}
+                    >
+                        <span className="font-bold underline">Link</span>
+                        <span className="text-xs font-medium">Highlight Links</span>
+                    </button>
+
+                    <button
+                        onClick={() => setHideImages(!hideImages)}
+                        className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all gap-2 ${hideImages ? 'bg-primary/10 border-primary text-primary' : 'bg-background border-border hover:bg-muted'}`}
+                    >
+                        <ImageIcon className="w-5 h-5" />
+                        <span className="text-xs font-medium">Hide Images</span>
+                    </button>
+
+                    <button
+                        onClick={() => setLargeCursor(!largeCursor)}
+                        className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all gap-2 ${largeCursor ? 'bg-primary/10 border-primary text-primary' : 'bg-background border-border hover:bg-muted'}`}
+                    >
+                        <MousePointer2 className="w-5 h-5" />
+                        <span className="text-xs font-medium">Big Cursor</span>
+                    </button>
+
+                    <button
+                        onClick={() => setIsHighContrast(!isHighContrast)}
+                        className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all gap-2 ${isHighContrast ? 'bg-primary/10 border-primary text-primary' : 'bg-background border-border hover:bg-muted'}`}
+                    >
+                        <Contrast className="w-5 h-5" />
+                        <span className="text-xs font-medium">Invert Colors</span>
+                    </button>
+
+                    <button
+                        onClick={() => setTextToSpeech(!textToSpeech)}
+                        className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all gap-2 ${textToSpeech ? 'bg-primary/10 border-primary text-primary' : 'bg-background border-border hover:bg-muted'}`}
+                    >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path d="M2 12h5l7 7V5L7 12H2Z" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" /></svg>
+                        <span className="text-xs font-medium">Read Aloud</span>
+                    </button>
                 </div>
 
-                {/* Cursor Options */}
-                <div className="flex flex-col gap-2">
-                    <span className="text-sm text-foreground">Cursor</span>
-                    <div className="flex gap-2 text-xs">
-                        <button className="flex-1 py-2 bg-primary text-background rounded-[8px]">Default</button>
-                        <button className="flex-1 py-2 bg-muted rounded-[8px] hover:bg-border">Large</button>
-                        <button className="flex-1 py-2 bg-muted rounded-[8px] hover:bg-border">Guide</button>
-                    </div>
-                </div>
+                <div className="h-px bg-border my-2" />
 
                 {/* Theme */}
-                <div className="flex justify-between items-center pt-4 border-t border-white/5">
-                    <span className="text-sm text-foreground">Theme</span>
-                    <div className="flex gap-2">
-                        <button
-                            onClick={() => setTheme("light")}
-                            className={`px-3 py-1 rounded-[8px] text-xs transition-colors ${theme === 'light' ? 'bg-primary text-background' : 'bg-muted hover:bg-border'}`}
-                        >
-                            Light
-                        </button>
-                        <button
-                            onClick={() => setTheme("dark")}
-                            className={`px-3 py-1 rounded-[8px] text-xs transition-colors ${theme === 'dark' ? 'bg-primary text-background' : 'bg-muted hover:bg-border'}`}
-                        >
-                            Dark
-                        </button>
-                        <button
-                            onClick={() => setTheme("system")}
-                            className={`px-3 py-1 rounded-[8px] text-xs transition-colors ${theme === 'system' ? 'bg-primary text-background' : 'bg-muted hover:bg-border'}`}
-                        >
-                            System
-                        </button>
-                    </div>
+                <div className="flex bg-muted p-1 rounded-xl">
+                    <button
+                        onClick={() => setTheme('light')}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all ${theme === 'light' ? 'bg-background shadow text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                    >
+                        <Sun className="w-4 h-4" /> Light
+                    </button>
+                    <button
+                        onClick={() => setTheme('dark')}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all ${theme === 'dark' ? 'bg-background shadow text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                    >
+                        <Moon className="w-4 h-4" /> Dark
+                    </button>
                 </div>
 
-                <button className="w-full py-2 text-primary hover:underline text-sm font-medium">
-                    Reset Settings
+                {/* Reset */}
+                <button
+                    onClick={resetSettings}
+                    className="w-full py-3 flex items-center justify-center gap-2 text-red-500 hover:bg-red-500/10 rounded-xl transition-colors font-medium text-sm"
+                >
+                    <RotateCcw className="w-4 h-4" /> Reset Settings
                 </button>
+
             </div>
         </div>
-    );
-}
-
-function ToggleSwitch({ active }: { active?: boolean }) {
-    return (
-        <button className={`w-10 h-6 rounded-full p-1 transition-colors ${active ? 'bg-primary' : 'bg-muted'}`}>
-            <div className={`w-4 h-4 bg-background rounded-full shadow-sm transition-transform ${active ? 'translate-x-4' : ''}`} />
-        </button>
     );
 }

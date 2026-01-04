@@ -244,3 +244,57 @@
     transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
+
+/* Accessibility Utility Classes */
+
+.font-dyslexia {
+  font-family: 'Open Dyslexic', 'Comic Sans MS', sans-serif !important;
+  letter-spacing: 0.05em;
+}
+
+.filter-invert {
+  filter: invert(100%) hue-rotate(180deg);
+}
+
+.filter-invert img,
+.filter-invert video {
+  filter: invert(100%) hue-rotate(180deg) !important;
+}
+
+.highlight-links a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 4px !important;
+  background-color: yellow !important;
+  color: black !important;
+}
+
+.dark .highlight-links a {
+  background-color: yellow !important;
+  color: black !important;
+}
+
+.hide-images img,
+.hide-images svg:not(.lucide),
+.hide-images .bg-image {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.cursor-large,
+.cursor-large * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linejoin="round"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>') 0 0, auto !important;
+}
+
+/* Screen Reader Only Class (Standard) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

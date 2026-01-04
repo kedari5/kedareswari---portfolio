@@ -4,7 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { Handshake } from "lucide-react";
+import { Handshake, Map } from "lucide-react";
+
+import AccessibilityMenu from "@/components/AccessibilityMenu";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,6 +52,9 @@ export default function Header() {
 
                     {/* Right Controls */}
                     <div className="flex items-center gap-3">
+                        {/* Accessibility Menu */}
+                        <AccessibilityMenu />
+
                         {/* Theme Toggle Button */}
                         {mounted && (
                             <button
@@ -169,6 +174,7 @@ export default function Header() {
                             <div className="h-px bg-border/50 my-4 mx-2" />
 
                             <MenuLink href="/docs/resume.docx" label="Resume" icon="file" onClick={() => setIsMenuOpen(false)} target="_blank" />
+                            <MenuLink href="/sitemap" label="Site Map" icon="map" onClick={() => setIsMenuOpen(false)} />
                             <MenuLink href="/#collaboration" label="Contact" icon="handshake" onClick={() => setIsMenuOpen(false)} />
                         </nav>
 
@@ -213,6 +219,7 @@ function MenuLink({ href, label, icon, onClick, isActive, target }: { href: stri
         sparkles: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" /></svg>,
         users: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>,
         handshake: <Handshake size={20} />,
+        map: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4L19 7.5V19L14.5 22L10 19V7.5L14.5 4Z" /><polyline points="14.5 4 14.5 19 19 19" /><polyline points="14.5 7.5 10 7.5 10 19" /></svg>,
         file: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14.5 2 14.5 7 20 7" /></svg>,
     };
 
