@@ -177,7 +177,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                                 <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold md:font-medium mb-4 md:mb-6 tracking-tight">
                                     {project.content[0].title}
                                 </h2>
-                                <p className="text-[17px] md:text-[18px] leading-[1.7] md:leading-[1.8] text-muted-foreground text-pretty font-normal md:font-light">
+                                <p className="text-[20px] md:text-[24px] leading-[1.5] md:leading-[1.8] text-muted-foreground text-pretty font-light">
                                     {project.content[0].body}
                                 </p>
                             </section>
@@ -229,7 +229,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                                         }
 
                                         return (
-                                            <p key={bIdx} className="text-[17px] md:text-[18px] leading-[1.8] text-muted-foreground text-pretty font-normal md:font-light whitespace-pre-wrap">
+                                            <p key={bIdx} className="text-[17px] md:text-[19px] leading-[1.7] md:leading-[1.8] text-muted-foreground text-pretty font-light whitespace-pre-wrap">
                                                 {block}
                                             </p>
                                         );
