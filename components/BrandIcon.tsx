@@ -13,7 +13,6 @@ const BRAND_ICONS: Record<string, { url: string; invertDark?: boolean; isLucide?
     "FigJam": { url: "/brand-icons/figma-custom.png?v=3" },
     "Figma": { url: "/brand-icons/figma-custom.png?v=3" },
     "Google Forms": { url: "/brand-icons/google-forms-custom.png?v=1" },
-    "Hotjar": { url: "/brand-icons/hotjar.svg" },
 
     // Design
     "Canva": { url: "/brand-icons/canva-custom.png?v=3" },
