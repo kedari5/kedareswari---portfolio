@@ -221,8 +221,8 @@ export default function BackgroundLayer() {
 
     // Generate icons programmatically for better distribution and count
     const generateIcons = (isHomePage: boolean) => {
-        const columns = isHomePage ? 5 : 4;
-        const rows = isHomePage ? 5 : 4;
+        const columns = isHomePage ? 2 : 4;
+        const rows = isHomePage ? 2 : 4;
         const widthPerCell = 100 / columns;
         const heightPerCell = 100 / rows;
         const iconTypes = [

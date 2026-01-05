@@ -68,27 +68,29 @@ export default function Home() {
       </section>
 
       {/* About Preview */}
-      <section id="about" className="min-h-[calc(100dvh-64px)] flex flex-col justify-center py-24 px-6 md:px-12">
-        <div className="max-w-[1120px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="order-2 md:order-1">
-            <h2 className="text-[32px] md:text-[40px] leading-[1.2] font-medium mb-6">
+      <section id="about" className="min-h-[calc(100dvh-64px)] flex flex-col justify-center py-12 md:py-24 px-6 md:px-12">
+        <div className="max-w-[1120px] mx-auto grid grid-cols-2 gap-4 md:gap-12 items-center">
+          <div className="order-1">
+            <h2 className="text-[24px] md:text-[40px] leading-[1.2] font-semibold md:font-medium mb-4 md:mb-6 text-foreground">
               Curiosity and clarity <br className="hidden md:block" /> shape every decision.
             </h2>
-            <p className="text-[18px] leading-[1.6] text-muted-foreground font-light mb-8 max-w-lg">
+            <p className="text-[15px] md:text-[18px] leading-[1.5] md:leading-[1.6] text-foreground/90 md:text-muted-foreground font-normal md:font-light mb-4 md:mb-8 max-w-lg">
               Understanding the problem always comes before shaping solutions.
               Every screen is designed to feel calm, clear, and comfortable.
-              <br className="block mt-4" />
-              When something works without explanation, the design has done its job.
+              <br className="hidden md:block mt-4" />
+              <span className="hidden sm:inline">
+                When something works without explanation, the design has done its job.
+              </span>
             </p>
           </div>
           {/* Profile Image */}
-          <div className="order-1 md:order-2 aspect-[4/5] bg-muted rounded-[24px] overflow-hidden relative border border-white/5 md:w-3/4 md:ml-auto">
+          <div className="order-2 aspect-square bg-muted rounded-[16px] md:rounded-[24px] overflow-hidden relative border border-white/5 w-[85%] ml-auto md:w-3/4">
             <Image
               src="/images/profile-portrait.jpg"
               alt="Kedareswari"
               fill
               className="object-cover object-top"
-              sizes="(max-width: 768px) 100vw,300px"
+              sizes="(max-width: 768px) 40vw, 300px"
             />
           </div>
         </div>

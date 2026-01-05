@@ -12,7 +12,7 @@ export default function CapabilitiesPreview() {
         {
             title: "Research",
             description: "Insight-driven understanding. I define problems by observing real usage patterns, not just guessing.",
-            tools: ["Miro", "Maze", "FigJam", "Google Forms", "Hotjar"]
+            tools: ["Miro", "Maze", "FigJam", "Google Forms"]
         },
         {
             title: "Design",
@@ -27,7 +27,7 @@ export default function CapabilitiesPreview() {
         {
             title: "Testing",
             description: "Validation through real usage. I believe accessibility and reliability are non-negotiable baselines.",
-            tools: ["Maze", "Hotjar", "GitHub", "Manual Testing"]
+            tools: ["Maze", "GitHub", "Manual Testing"]
         }
     ];
 
@@ -40,43 +40,36 @@ export default function CapabilitiesPreview() {
 
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="flex flex-col gap-12 md:gap-16">
                 {capabilities.map((cap) => (
                     <Link
                         href="/capabilities"
                         key={cap.title}
-                        className="block focus:outline-none h-full"
-                        onMouseEnter={() => setHoveredCapability(cap.title)}
-                        onMouseLeave={() => setHoveredCapability(null)}
+                        className="group block"
                     >
-                        <div className="p-6 min-h-[180px] h-full border border-white/5 rounded-[24px] hover:border-primary/50 transition-all duration-500 bg-card group flex flex-col relative overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(111,174,255,0.3)]">
-                            <div className="flex justify-between items-start mb-2">
-                                <h3 className="text-[24px] leading-[32px] font-medium group-hover:text-primary transition-colors">{cap.title}</h3>
-                                <ArrowUpRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0" />
+                        <div className="grid grid-cols-2 gap-4 md:gap-12 items-start md:items-center">
+                            {/* Left: Content */}
+                            <div className="flex flex-col gap-2 md:gap-4">
+                                <h3 className="text-[20px] md:text-[28px] font-semibold md:font-medium group-hover:text-primary transition-colors flex items-center gap-2">
+                                    {cap.title}
+                                    <ArrowUpRight className="w-4 h-4 md:w-5 h-5 text-muted-foreground opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                                </h3>
+                                <p className="text-[14px] md:text-[16px] leading-[1.5] text-muted-foreground/90 font-normal md:font-light max-w-sm">
+                                    {cap.description}
+                                </p>
                             </div>
 
-                            <div className="flex-grow relative">
-                                {/* Default Description - Anchored to top */}
-                                <div className={`absolute top-0 left-0 w-full transition-all duration-300 ease-in-out ${hoveredCapability === cap.title ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
-                                    <p className="text-[15px] leading-[24px] text-muted-foreground">
-                                        {cap.description}
-                                    </p>
-                                </div>
-
-                                {/* Hover Tools Grid - Centered in remaining space */}
-                                <div className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out px-2 ${hoveredCapability === cap.title ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
-                                    <div className="flex flex-wrap gap-3 justify-center">
-                                        {cap.tools.map((tool) => (
-                                            <div
-                                                key={tool}
-                                                className="p-3 bg-background/90 backdrop-blur-sm border border-white/10 rounded-xl shadow-lg flex items-center justify-center group/icon"
-                                                title={tool}
-                                            >
-                                                <BrandIcon name={tool} className="w-6 h-6" />
-                                            </div>
-                                        ))}
+                            {/* Right: Tools Icons */}
+                            <div className="flex flex-wrap gap-2 md:gap-3 justify-end md:justify-start">
+                                {cap.tools.map((tool) => (
+                                    <div
+                                        key={tool}
+                                        className="w-10 h-10 md:w-12 md:h-12 bg-surface/50 backdrop-blur-sm border border-border/30 rounded-xl flex items-center justify-center shadow-sm group-hover:border-primary/30 transition-colors"
+                                        title={tool}
+                                    >
+                                        <BrandIcon name={tool} className="w-5 h-5 md:w-6 h-6" />
                                     </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </Link>

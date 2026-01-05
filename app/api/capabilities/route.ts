@@ -5,7 +5,7 @@ const capabilitiesData = [
     {
         title: "Research",
         description: "Insight-driven understanding. I define problems by observing real usage patterns, not just guessing.",
-        tools: ["Miro", "Maze", "FigJam", "Google Forms", "Hotjar"]
+        tools: ["Miro", "Maze", "FigJam", "Google Forms"]
     },
     {
         title: "Design",
@@ -20,7 +20,7 @@ const capabilitiesData = [
     {
         title: "Testing & Validation",
         description: "Validation through real usage. I believe accessibility and reliability are non-negotiable baselines.",
-        tools: ["Maze", "Hotjar", "Manual Testing"]
+        tools: ["Maze", "Manual Testing"]
     },
     {
         title: "Versioning & Deployment",

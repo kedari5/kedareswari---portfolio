@@ -167,28 +167,61 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                 </div>
 
                 {/* Content Sections Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-12">
-                    <div className="md:col-span-8 space-y-24">
-                        {project.content.map((section, idx) => (
+                {/* Content Sections Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-12 items-start">
+                    {/* Main Content */}
+                    <div className="md:col-span-8 flex flex-col gap-12 md:gap-24">
+                        {/* First Section with Side-by-Side Details on Mobile */}
+                        <div className="grid grid-cols-[1fr_150px] md:grid-cols-1 gap-6 md:gap-0">
+                            <section className="group">
+                                <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold md:font-medium mb-4 md:mb-6 tracking-tight">
+                                    {project.content[0].title}
+                                </h2>
+                                <p className="text-[17px] md:text-[18px] leading-[1.7] md:leading-[1.8] text-muted-foreground text-pretty font-normal md:font-light">
+                                    {project.content[0].body}
+                                </p>
+                            </section>
+
+                            {/* Project Details Box (Mobile Only - visible side by side) */}
+                            <div className="md:hidden">
+                                <div className="p-4 bg-surface dark:bg-[#2e54a5]/10 backdrop-blur-md rounded-[16px] border border-primary/50 dark:border-[#2e54a5] shadow-[inset_0_0_10px_rgba(111,174,255,0.1)]">
+                                    <h3 className="text-[9px] font-bold uppercase tracking-widest mb-4 text-primary">Project Details</h3>
+                                    <ul className="space-y-3">
+                                        <li className="flex flex-col gap-0.5">
+                                            <span className="text-[9px] text-muted-foreground font-bold uppercase">Category</span>
+                                            <span className="font-medium text-foreground text-[12px] leading-tight line-clamp-2">{project.category}</span>
+                                        </li>
+                                        <li className="flex flex-col gap-0.5">
+                                            <span className="text-[9px] text-muted-foreground font-bold uppercase">Role</span>
+                                            <span className="font-medium text-foreground text-[12px] leading-tight">{project.role || "Design & Code"}</span>
+                                        </li>
+                                        <li className="flex flex-col gap-0.5">
+                                            <span className="text-[9px] text-muted-foreground font-bold uppercase">Timeline</span>
+                                            <span className="font-medium text-foreground text-[12px] leading-tight">{project.timeline}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Remaining Sections */}
+                        {project.content.slice(1).map((section, idx) => (
                             <section key={idx} className="group">
                                 <h2 className="text-[28px] md:text-[32px] leading-[1.2] font-medium mb-6 tracking-tight">
                                     {section.title}
                                 </h2>
                                 <div className="space-y-10">
                                     {section.body.split('\n\n').map((block, bIdx) => {
-                                        const lines = block.split('\n');
-                                        // Specific layout for Tools: First line is Subheading, rest is Matter
-                                        // Specific layout for Tools
                                         if (section.title.toLowerCase().includes('tools')) {
                                             return (
-                                                <div key={bIdx} className="flex flex-wrap gap-4">
+                                                <div key={bIdx} className="flex flex-wrap gap-3 md:gap-4">
                                                     {block.split(/[,/\n]+/).map((toolName) => toolName.trim()).filter(Boolean).map((tool) => (
                                                         <div
                                                             key={tool}
-                                                            className="w-14 h-14 bg-card border border-white/10 hover:bg-card/80 backdrop-blur-md rounded-[16px] transition-all hover:scale-105 active:scale-95 cursor-default flex items-center justify-center group relative shadow-sm"
+                                                            className="w-12 h-12 md:w-14 md:h-14 bg-card border border-white/10 hover:bg-card/80 backdrop-blur-md rounded-[12px] md:rounded-[16px] transition-all hover:scale-105 active:scale-95 cursor-default flex items-center justify-center group relative shadow-sm"
                                                             title={tool}
                                                         >
-                                                            <BrandIcon name={tool} className="w-6 h-6" />
+                                                            <BrandIcon name={tool} className="w-5 h-5 md:w-6 h-6" />
                                                         </div>
                                                     ))}
                                                 </div>
@@ -196,7 +229,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                                         }
 
                                         return (
-                                            <p key={bIdx} className="text-[17px] md:text-[18px] leading-[1.8] text-muted-foreground text-pretty font-light whitespace-pre-wrap">
+                                            <p key={bIdx} className="text-[17px] md:text-[18px] leading-[1.8] text-muted-foreground text-pretty font-normal md:font-light whitespace-pre-wrap">
                                                 {block}
                                             </p>
                                         );
@@ -204,11 +237,10 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                                 </div>
                             </section>
                         ))}
-
                     </div>
 
-                    {/* Sidebar Details */}
-                    <div className="md:col-span-4 lg:pl-12">
+                    {/* Sidebar Details (Desktop Only) */}
+                    <div className="hidden md:block md:col-span-4 lg:pl-12">
                         <div className="p-8 bg-surface dark:bg-[#2e54a5]/10 backdrop-blur-md rounded-[28px] border-2 border-primary dark:border-[#2e54a5] sticky top-24 shadow-[inset_0_0_20px_rgba(111,174,255,0.2)] dark:shadow-[inset_0_0_30px_rgba(46,84,165,0.3)] hover:shadow-[inset_0_0_30px_rgba(111,174,255,0.4)] dark:hover:shadow-[inset_0_0_40px_rgba(46,84,165,0.5)] transition-all duration-500">
                             <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-10">Project Details</h3>
                             <ul className="space-y-8">

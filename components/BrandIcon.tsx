@@ -42,7 +42,7 @@ const BRAND_ICONS: Record<string, { url: string; invertDark?: boolean; isLucide?
 
     // Versioning
     "GitHub": { url: "/brand-icons/github-custom.png?v=1", invertDark: false },
-    "Vercel": { url: "/brand-icons/vercel-custom.svg?v=1", invertDark: true },
+    "Vercel": { url: "/brand-icons/vercel-custom.png?v=1", invertDark: true },
 
     // Custom Assets (Converted from Lucide/Missing)
     "Flask": { url: "/brand-icons/flask-custom.svg", invertDark: true },
